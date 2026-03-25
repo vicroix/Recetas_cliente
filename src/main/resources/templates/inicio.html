@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bar Labea</title>
+<link rel="stylesheet" href="styles/styles.css">
+<script src="js/hashearPass.js"></script>
+</head>
+
+<body>
+	<header th:include="plantillas/plantillas.html::cabecera"></header>
+
+	<nav th:include="plantillas/plantillas.html::menu"></nav>
+
+	<main>
+		<div class="contenedor-titulo-section">
+			<div>
+				<svg xmlns="http://www.w3.org/2000/svg" width="30" height="30"
+					viewBox="0 0 48 48">
+					<path fill="none" stroke="#ea580c" stroke-width="3"
+						stroke-linecap="round" stroke-linejoin="round"
+						d="m6.022 40.364l15.105-28.122a2.593 2.593 0 0 1 4.02-.893c1.182 1.119 11.295 10.63 12.618 11.873a2.387 2.387 0 0 1-.15 3.834l-28.23 16.13a2.335 2.335 0 0 1-3.363-2.822M38.62 4.5l-5.657 10.72l9.156-2.903M17.744 18.54l5.024 4.833m1.904 11.078l-3.994-4.001m-10.059 1.356l2.63 2.501" /></svg>
+			</div>
+			<h2>Recetas</h2>
+			<div>
+				<svg xmlns="http://www.w3.org/2000/svg" width="30" height="30"
+					viewBox="0 0 48 48">
+					<path fill="none" stroke="#e11d48" stroke-width="3"
+						stroke-linecap="round" stroke-linejoin="round"
+						d="M32.756 12.664c-6.218 6.81-15.947 8.248-15.947 18.865c0 9.137 4.794 11.971 10.533 11.971c5.315 0 9.898-4.695 9.898-11.97c0-8.038-6.684-11.845-6.684-11.845" />
+					<path fill="none" stroke="#e11d48" stroke-linecap="round"
+						stroke-linejoin="round"
+						d="M31.035 14.366s-2.718 2.835-7.754 2.105c-5.42-.787-8.21-6.066-12.52-2.707C12.705 6.488 15.54 4.5 20.573 4.5s8.206 5.16 9.01 7.149c-4.146 3.003-6.627-5.006-12.718-2.017" /></svg>
+			</div>
+		</div>
+		<div id="contenedor-section">
+			<section class="section-form"
+				th:if="${'ADMIN'.equals(s_usu.role.nombre) || 'USUARIO'.equals(s_usu.role.nombre)}">
+				<div>
+					<form th:action="@{/InsertarReceta}" method="post"
+						th:object="${obj_receta}" class="display-column">
+						<div>
+							<h3>Insertar receta</h2>
+						</div>
+						<div class="display-row">
+							<div class="display-row">
+								<label>Nombre:</label> <input type="text" th:field="*{nombre}"
+									placeholder="Ej: Patatas fritas" required>
+							</div>
+							<div class="display-row">
+								<label>Dificultad:</label>
+								<select th:field="*{dificultad}">
+									<option th:each="elem:${listaDificultades}"
+										th:value="${elem.id}" th:text="${elem.dificultad}" required>
+								</select>
+							</div>
+							<input type="submit" value="Insertar vehiculo">
+						</div>
+					</form>
+				</div>
+			</section>
+			<section>
+				<div class="section-datos">
+					<table>
+						<thead>
+							<tr>
+								<th>ID
+								</td>
+								<th>NOMBRE
+								</td>
+								<th>Dificultad
+								</td>
+								<th>Gestión</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr th:each="elem: ${listaRecetas}">
+								<td th:text="${elem.id}"></td>
+								<td th:text="${elem.nombre}"></td>
+								<td th:text="${elem.dificultad.dificultad}"></td>
+								<td>
+									<a th:href="@{/ModificarReceta(id=${elem.id})}"
+										class="modificar">Modificar</a>
+									<a th:href="@{/BorrarReceta(id=${elem.id})}" class="borrar">Borrar</a></td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</section>
+		</div>
+	</main>
+
+	<footer th:include="plantillas/plantillas.html::pie"></footer>
+</body>
+
+</html>

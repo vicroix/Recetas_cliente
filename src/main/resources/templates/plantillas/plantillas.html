@@ -1,0 +1,122 @@
+<header th:fragment="cabecera">
+	<div id="cabecera_izq">
+
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 5 300 120" width="200" height="75">
+  <defs>
+    <style>
+      .cls-1 { fill: #8B4513; }
+      .cls-5 { fill: #8B4513; }
+      .cls-2 { fill: #DAA520; } /* Naranja Quemado para detalles y lema */
+      .cls-3 { font-family: 'Georgia', serif; font-weight: bold; font-size: 32px; }
+      .cls-4 { font-family: 'Arial', sans-serif; font-size: 24px; letter-spacing: 2px; text-transform: uppercase; }
+    </style>
+  </defs>
+  <circle cx="60" cy="60" r="55" fill="#FFF8F0" stroke="#DAA520" stroke-width="2"/>
+  <g transform="translate(80, 30) scale(0.20) rotate(115)">
+    <path class="cls-1" d="M128,0C57.3,0,0,57.3,0,128s57.3,128,128,128s128-57.3,128-128S198.7,0,128,0z M128,232c-57.3,0-104-46.7-104-104 S70.7,24,128,24s104,46.7,104,104S185.3,232,128,232z"/>
+    <path class="cls-1" d="M168,72h-16V56c0-4.4-3.6-8-8-8h-32c-4.4,0-8,3.6-8,8v16H88c-13.2,0-24,10.8-24,24v80c0,13.2,10.8,24,24,24h80 c13.2,0,24-10.8,24-24V96C192,82.8,181.2,72,168,72z M176,176c0,4.4-3.6,8-8,8H88c-4.4,0-8-3.6-8-8V96c0-4.4,3.6-8,8-8h80 c4.4,0,8,3.6,8,8V176z"/>
+    <path class="cls-2" d="M112,128v32c0,4.4,3.6,8,8,8h16c4.4,0,8-3.6,8-8v-32c0-4.4-3.6-8-8-8h-16C115.6,120,112,123.6,112,128z"/>
+    <path class="cls-2" d="M148,32c0-8.8-7.2-16-16-16s-16,7.2-16,16"/>
+    <path class="cls-2" d="M136,44c0-4.4-3.6-8-8-8s-8,3.6-8,8"/>
+  </g>
+  <g class="cls-2" transform="translate(15, 25) scale(0.9)">
+    <path d="M50,90 C40,80 40,60 50,50 M70,50 C80,60 80,80 70,90" stroke-width="3" fill="none"/>
+    <ellipse cx="45" cy="55" rx="3" ry="5" transform="rotate(-30 45 55)"/>
+    <ellipse cx="42" cy="65" rx="3" ry="5" transform="rotate(-30 42 65)"/>
+    <ellipse cx="40" cy="75" rx="3" ry="5" transform="rotate(-30 40 75)"/>
+    <ellipse cx="75" cy="55" rx="3" ry="5" transform="rotate(30 75 55)"/>
+    <ellipse cx="78" cy="65" rx="3" ry="5" transform="rotate(30 78 65)"/>
+    <ellipse cx="80" cy="75" rx="3" ry="5" transform="rotate(30 80 75)"/>
+  </g>
+  <text x="130" y="55" class="cls-5 cls-3">RECETAS</text>
+  <text x="140" y="85" class="cls-5 cls-3">CASERAS</text>
+  <text x="120" y="115" class="cls-5 cls-4">SABOR ÚNICO</text>
+</svg>
+
+	</div>
+
+	<div id="cabecera_cen"></div>
+</header>
+
+<nav th:fragment="menu">
+	<ul>
+		<div>
+			<li><a th:href="@{/MenuInicio}" class="separacion-a-nav">Inicio</a></li>
+			<li><a th:href="@{/MenuDificultades}" class="separacion-a-nav z-index-superior-1 transladar-izq-25">Dificultades</a></li>
+			<li><a th:href="@{/MenuAdministracion}"
+				th:if="${'ADMIN'.equals(s_usu.role.nombre)}" class="separacion-a-nav  z-index-superior-2 transladar-izq-50">Administración</a></li>
+		</div>
+		<div>
+			<li><a th:href="@{/CerrarSesion}" class="separacion-a-nav">Cerrar Sesion</a></li>
+		</div>
+	</ul>
+</nav>
+
+<div th:fragment="editorProd">
+	<div class="contenido-editor-prod">
+		<form th:action="@{/EditarProdTicket}" method="post"
+			th:object="${obj_ticket}" class="form-no-border">
+			<div class="display-row">
+				<h3 th:text=" 'Editor del ticket con id[' + *{id} + ']'"></h3>
+			</div>
+			<div class="display-column">
+				<h4>Lista Productos</h4>
+				<input type="hidden" name="id" th:value="*{id}">
+				<div>
+					<select name="id_prod">
+						<option th:each="elem:${listaProductos}" th:value="${elem.id}"
+							th:text="${elem.nombre}">
+					</select>
+				</div>
+				<div class="display-column">
+					<label>Cantidad:</label> <input type="number" name="cantidad_prod"
+						min="1" required>
+				</div>
+			</div>
+			<div>
+				<button type="submit" title="Guardar" class="button-svg">
+					<svg xmlns="http://www.w3.org/2000/svg" width="25" height="25"
+						viewBox="0 0 48 48">
+						<path fill="#D1C4E9"
+							d="M38 7H10c-1.1 0-2 .9-2 2v6c0 1.1.9 2 2 2h28c1.1 0 2-.9 2-2V9c0-1.1-.9-2-2-2m0 12H10c-1.1 0-2 .9-2 2v6c0 1.1.9 2 2 2h28c1.1 0 2-.9 2-2v-6c0-1.1-.9-2-2-2m0 12H10c-1.1 0-2 .9-2 2v6c0 1.1.9 2 2 2h28c1.1 0 2-.9 2-2v-6c0-1.1-.9-2-2-2" />
+						<circle cx="38" cy="38" r="10" fill="#43A047" />
+						<g fill="#fff">
+						<path d="M36 32h4v12h-4z" />
+						<path d="M32 36h12v4H32z" /></g>
+					</svg>
+				</button>
+
+				<a th:href=@{/MenuTickets} title="Volver"> <svg
+						xmlns="http://www.w3.org/2000/svg" width="20" height="20"
+						viewBox="0 0 48 48">
+						<defs>
+						<mask id="IconifyId19cecfd8d3d6a39a15">
+					<path fill="#555" fill-rule="evenodd" stroke="#fff"
+							stroke-linejoin="round" stroke-width="4"
+							d="M44 40.836q-7.34-8.96-13.036-10.168t-10.846-.365V41L4 23.545L20.118 7v10.167q9.523.075 16.192 6.833q6.668 6.758 7.69 16.836Z"
+							clip-rule="evenodd" /></mask></defs>
+						<path fill="#e11d48" d="M0 0h48v48H0z"
+							mask="url(#IconifyId19cecfd8d3d6a39a15)" /></svg>
+				</a>
+			</div>
+		</form>
+		<div class="display-column">
+			<h3>Sus productos:</h3>
+			<div th:if="${!#lists.isEmpty(obj_ticket.listaTicketConProductos)}">
+				<span th:each="elem : ${obj_ticket.listaTicketConProductos}"
+					class="sus-prod-ticket">
+					<p th:text="${elem.prod.nombre} + ' x' + ${elem.cantidad}"></p> <a
+					th:href="@{/BorrarProdDeTicket(id=${elem.id})}"> <svg
+							xmlns="http://www.w3.org/2000/svg" width="20" height="20"
+							viewBox="0 0 24 24">
+							<path fill="#dc2626"
+								d="M7.616 20q-.691 0-1.153-.462T6 18.384V6H5V5h4v-.77h6V5h4v1h-1v12.385q0 .69-.462 1.153T16.384 20zm2.192-3h1V8h-1zm3.384 0h1V8h-1z" />
+						</svg>
+				</a>
+				</span>
+			</div>
+		</div>
+	</div>
+</div>
+
+<footer th:fragment="pie"> </footer>
