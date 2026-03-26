@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bar Labea</title>
+<link rel="stylesheet" href="styles/styles.css">
+<script src="js/hashearPass.js"></script>
+</head>
+
+<body>
+	<header th:include="plantillas/plantillas.html::cabecera"></header>
+
+	<nav th:include="plantillas/plantillas.html::menu"></nav>
+
+	<main>
+		<div class="contenedor-titulo-section">
+			<div></div>
+			<h2>Administración</h2>
+			<div></div>
+		</div>
+		<div id="contenedor-section">
+			<section class="section-form">
+				<div>
+					<form th:action="@{/RegistrarUsuario}" method="post"
+						th:object="${obj_usuario}" class="display-column">
+						<div>
+							<h3 class="titulo-form">Registrar usuario</h3>
+						</div>
+						<div>
+							<div class="display-row">
+								<div class="display-row">
+									<label>Usuario:</label> <input type="text" th:field="*{user}"
+										value=""></input>
+								</div>
+								<div class="display-row">
+									<label>Contraseña:</label> <input type="text"
+										id="pass_sin_hash" oninput="calcularSha256();"></input>
+								</div>
+								<div class="display-row">
+									<select th:field="*{role.id}">
+										<option th:each="elem:${listaRoles}" th:value="${elem.id}"
+											th:text="${elem.nombre}">
+									</select>
+								</div>
+								<input type="hidden" th:field="*{pass}" value=""></input> <input
+										type="submit" value="Registrar">
+							</div>
+					</form>
+				</div>
+				<div>
+					<h3 th:if="${success}" th:text="${success}" style="color: green"></h3>
+					<h3 th:if="${MsgError}" th:text="${MsgError}" style="color: red"></h3>
+				</div>
+			</section>
+			<section>
+				<div class="section-datos">
+					<table class="administracion">
+						<thead>
+							<tr>
+								<th class="data-id">ID</th>
+								<th>Nombre</th>
+								<th>Pass</th>
+								<th>Salt</th>
+								<th class="data-id">R_ID</th>
+								<th>ROL</th>
+								<th>Gestión</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr th:each="elem:${listaUsuarios}">
+								<td th:text="${elem.id}" th:title="${elem.id}"
+									class="texto-recortado"></td>
+								<td th:text="${elem.user}" th:title="${elem.user}"
+									class="texto-recortado"></td>
+								<td th:text="${elem.pass}" th:title="${elem.pass}"
+									class="texto-recortado"></td>
+								<td th:text="${elem.salt}" th:title="${elem.salt}"
+									class="texto-recortado"></td>
+								<td th:text="${elem.role.id}" th:title="${elem.role.id}"
+									class="texto-recortado"></td>
+								<td th:text="${elem.role.nombre}" th:title="${elem.role.nombre}"
+									class="texto-recortado"></td>
+								<td><a th:href="@{/ModificarUsuario(id=${elem.id})}">Modificar</a>
+									<a th:href="@{/BorrarUsuario(id=${elem.id})}">Borrar</a></td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</section>
+		</div>
+	</main>
+
+	<footer th:include="plantillas/plantillas.html::pie"></footer>
+</body>

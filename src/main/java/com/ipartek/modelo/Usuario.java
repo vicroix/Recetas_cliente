@@ -24,7 +24,7 @@ public class Usuario {
 	@Column(name="pass", length = 64)
 	private String pass;
 	
-	@Column(name="salt", unique = true, length = 16)
+	@Column(name="salt", unique = true, length = 32)
 	private String salt;
 	
 	@ManyToOne

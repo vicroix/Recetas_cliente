@@ -6,32 +6,29 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.ipartek.componente.JwtUtil;
 import com.ipartek.modelo.Usuario;
-import com.ipartek.pojo.Receta;
+import com.ipartek.pojo.Dificultad;
 import com.ipartek.servicioREST.DificultadServicio;
-import com.ipartek.servicioREST.RecetasServicio;
 
 import io.jsonwebtoken.Claims;
 import jakarta.servlet.http.HttpSession;
 
 @Controller
-public class RecetaControlador {
+public class DificultadControlador {
 
 	@Autowired
 	private DificultadServicio dificultadServ;
 	
 	@Autowired
-	private RecetasServicio recetaServ;
-
-	@Autowired
 	private JwtUtil jwtUtil;
-
-	@PostMapping("/InsertarReceta")
-	public String insertarReceta(HttpSession session, @ModelAttribute Receta obj_receta) {
+	
+	@PostMapping("/InsertarDificultad")
+	public String insertarDificultad(
+			HttpSession session,
+			@ModelAttribute Dificultad obj_dificultad) {
 		String token = "";
 		if ((String) session.getAttribute("s_token") != null) {
 			token = (String) session.getAttribute("s_token");
@@ -39,15 +36,18 @@ public class RecetaControlador {
 		if (jwtUtil.isTokenValid(token)) {
 			Claims claims = jwtUtil.extractClaims(token);
 			if (claims.get("rol").equals("ADMIN")) {
-				recetaServ.insertarReceta(token, obj_receta);
-				return "redirect:/MenuInicio";
+				dificultadServ.insertarDificultad(token, obj_dificultad);
+				return "redirect:/MenuDificultades";
 			}
 		}
 		return "redirect:/";
 	}
-
-	@GetMapping("/ModificarReceta")
-	public String frmModificarReceta(Model model, HttpSession session, @RequestParam Integer id) {
+	
+	@GetMapping("/ModificarDificultad")
+	public String frmModificarDificultad(
+			Model model,
+			HttpSession session,
+			@RequestParam Integer id) {
 		String token = "";
 		Usuario usu = (Usuario) session.getAttribute("s_usu");
 		if ((String) session.getAttribute("s_token") != null) {
@@ -56,22 +56,39 @@ public class RecetaControlador {
 		if (jwtUtil.isTokenValid(token)) {
 			Claims claims = jwtUtil.extractClaims(token);
 			if (claims.get("rol").equals("ADMIN")) {
-				Receta recetaTemp = recetaServ.obtenerRecetaPorId(token, id);
-				if (recetaTemp != null) {
-					model.addAttribute("obj_receta", recetaTemp);
-					model.addAttribute("listaDificultades", dificultadServ.obtenerTodasDificultades(token));
-					model.addAttribute("s_usu", usu);
-					return "frm_modificar_receta";
-				}
+				Dificultad difiTemp = dificultadServ.obtenerDificultadPorId(token, id);
+				model.addAttribute("obj_dificultad", difiTemp);
+				model.addAttribute("s_usu", usu);
+				return "frm_modificar_dificultad";
 			}
 		}
 		return "redirect:/";
 	}
-
-	@PostMapping("/ModificarReceta")
-	public String modificarReceta(
-			HttpSession session, 
-			@ModelAttribute Receta obj_receta) {
+	
+	@PostMapping("/ModificarDificultad")
+	public String modificarDificultad(
+			Model model,
+			HttpSession session,
+			@ModelAttribute Dificultad obj_dificultad) {
+		String token = "";
+		Usuario usu = (Usuario) session.getAttribute("s_usu");
+		if ((String) session.getAttribute("s_token") != null) {
+			token = (String) session.getAttribute("s_token");
+		}
+		if (jwtUtil.isTokenValid(token)) {
+			Claims claims = jwtUtil.extractClaims(token);
+			if (claims.get("rol").equals("ADMIN")) {
+				dificultadServ.modificarDificultad(token, obj_dificultad);
+				return "redirect:/MenuDificultades";
+			}
+		}
+		return "redirect:/";
+	}
+	
+	@GetMapping("/BorrarDificultad")
+	public String borrarDificultad(
+			HttpSession session,
+			@RequestParam Integer id) {
 		String token = "";
 		if ((String) session.getAttribute("s_token") != null) {
 			token = (String) session.getAttribute("s_token");
@@ -79,25 +96,8 @@ public class RecetaControlador {
 		if (jwtUtil.isTokenValid(token)) {
 			Claims claims = jwtUtil.extractClaims(token);
 			if (claims.get("rol").equals("ADMIN")) {
-				recetaServ.modificarReceta(token, obj_receta);
-				return "redirect:/MenuInicio";
-			}
-		}
-		return "redirect:/";
-	}
-	
-	
-	@GetMapping("/BorrarReceta")
-	public String borrarReceta(HttpSession session, @RequestParam Integer id) {
-		String token = "";
-		if ((String) session.getAttribute("s_token") != null) {
-			token = (String) session.getAttribute("s_token");
-		}
-		if (jwtUtil.isTokenValid(token)) {
-			Claims claims = jwtUtil.extractClaims(token);
-			if (claims.get("rol").equals("ADMIN")) {
-				recetaServ.borrarReceta(token, id);
-				return "redirect:/MenuInicio";
+				dificultadServ.borrarDificultad(token, id);
+				return "redirect:/MenuDificultades";
 			}
 		}
 		return "redirect:/";

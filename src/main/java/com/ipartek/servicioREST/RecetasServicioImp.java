@@ -41,6 +41,8 @@ public class RecetasServicioImp implements RecetasServicio{
 			HttpHeaders headers = new HttpHeaders();
 			headers.setContentType(MediaType.APPLICATION_JSON);
 			headers.setBearerAuth(token);
+			System.out.println("================================");
+			System.out.println("Datos receta antes de insertar: " + rece);
 			HttpEntity<Receta> entity = new HttpEntity<>(rece, headers);
 			ResponseEntity<Receta> response = restTemp.exchange(URL, HttpMethod.POST, entity, Receta.class);
 			return response.getBody();
@@ -77,7 +79,7 @@ public class RecetasServicioImp implements RecetasServicio{
 			HttpHeaders headers = new HttpHeaders();
 			headers.setContentType(MediaType.APPLICATION_JSON);
 			headers.setBearerAuth(token);
-			HttpEntity<String> entity = new HttpEntity<>(headers);
+			HttpEntity<Receta> entity = new HttpEntity<>(rece, headers);
 			ResponseEntity<Receta> response = restTemp.exchange(
 					URL,
 					HttpMethod.PUT,

@@ -39,7 +39,7 @@ public class DificultadServicioImp implements DificultadServicio{
 			HttpHeaders headers = new HttpHeaders();
 			headers.setContentType(MediaType.APPLICATION_JSON);
 			headers.setBearerAuth(token);
-			HttpEntity<String> entity = new HttpEntity<>(headers);
+			HttpEntity<Dificultad> entity = new HttpEntity<>(difi, headers);
 			ResponseEntity<Dificultad> response = restTemp.exchange(URL, HttpMethod.POST, entity, Dificultad.class);
 			return response.getBody();
 		} catch (Exception e) {
@@ -75,7 +75,7 @@ public class DificultadServicioImp implements DificultadServicio{
 			HttpHeaders headers = new HttpHeaders();
 			headers.setContentType(MediaType.APPLICATION_JSON);
 			headers.setBearerAuth(token);
-			HttpEntity<String> entity = new HttpEntity<>(headers);
+			HttpEntity<Dificultad> entity = new HttpEntity<>(difi, headers);
 			ResponseEntity<Dificultad> response = restTemp.exchange(
 					URL,
 					HttpMethod.PUT,

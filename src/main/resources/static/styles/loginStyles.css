@@ -1,12 +1,26 @@
-form {
-    max-width: 320px;
-    margin: 80px auto;
-	padding: 15px;
-    border: 1px solid #ccc;
-    border-radius: 12px;
-    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
-    font-family: sans-serif;
-    background-color: var(--colorPrincipalClaro);
+#form-login{
+	display: flex;
+	gap: 0.45rem;
+	align-items: center;
+	flex-direction: column;
+	border-radius: 4px;
+	padding: 14px;
+		background-image: linear-gradient(rgba(255, 255, 255, 0.3),
+		rgba(255, 255, 255, 0.4)), url('/imagenes/fondo-cabecera.jpg');
+	background-size: cover;
+	background-position: center;
+}
+
+#form-login input{
+	border: 0;
+}
+
+#form-login div:first-child{
+	margin-bottom: 2rem;
+}
+
+#form-login div{
+	gap: 5px;
 }
 
 fieldset {
@@ -26,8 +40,9 @@ label {
 input[type="text"],
 input[type="password"] {
     width: 100%;
-    padding: 8px;
-    margin-top: 4px;
+    padding: 4px;
+    padding-left: 6px;
+    padding-right: 6px;
     border: 1px solid #bbb;
     border-radius: 6px;
     box-sizing: border-box;
@@ -37,22 +52,22 @@ input[type="password"] {
 input[type="text"]:focus,
 input[type="password"]:focus {
     outline: none;
-    border-color: var(--colorPrincipal);
+    border-color: var(--colorPrincipalClaro);
     box-shadow: 0 0 4px var(--colorPrincipalClaro);
 }
 
 input[type="submit"] {
     width: 100%;
     margin-top: 15px;
-    padding: 10px;
+    padding: 4px;
     font-size: 18px;
-    font-weight: bold;
+    font-weight: 500;
     color: var(--colorPrincipalOscuro);
     background-color: var(--fondoClaro);
     border: none;
     border-radius: 6px;
     cursor: pointer;
-    transition: background-color 0.2s ease-in;
+    transition: all 0.2s ease-in;
     text-shadow: 0 0 1px var(--colorPrincipalOscuro);
 }
 
@@ -64,6 +79,7 @@ input[type="submit"]:active {
     background-color: var(--colorContrasteOscuro);
     color: var(--fondoClaro);
 }
+
 a {
     display: inline-block;
     text-decoration: none;

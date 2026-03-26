@@ -17,8 +17,10 @@
 
     <main id="mainSinMenu">
         <section id="sectionSinMenu">
-			<form th:action="@{/ValidarUsuario}" method="post" th:object="${obj_usuario}" class="login-panel-glass">
-				<h2>Login</h2>
+			<form th:action="@{/ValidarUsuario}" method="post" th:object="${obj_usuario}" class="login-panel-glass" id="form-login">
+				<div>
+					<h2>Login</h2>
+				</div>
 				<div>
 					<label>Usuario:</label>
 					<input type="text" th:field="*{user}" value=""></input>
@@ -30,8 +32,6 @@
 				<input type="hidden" th:field="*{pass}" value=""></input>
 				<input type="submit" value="Enviar">
 			</form>
-			
-			
         </section>
     </main>
 
