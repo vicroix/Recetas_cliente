@@ -7,5 +7,5 @@ import com.ipartek.modelo.Rol;
 
 @Repository
 public interface RolRepositorio extends JpaRepository<Rol, Integer>{
-
+ Rol findByNombre(String nombre);
 }

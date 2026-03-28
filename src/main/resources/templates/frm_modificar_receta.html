@@ -36,17 +36,17 @@
 			</div>
 		</div>
 		<div id="contenedor-section">
-			<section class="section-form section-datos">
+			<section class="section-form-put">
 				<div>
 					<form th:action="@{/ModificarReceta}" method="post"
 						th:object="${obj_receta}">
-							<div class="display-row">
+							<div class="display-column-form">
 								<input type="hidden" th:field="*{id}" readonly>
 								<label>Nombre:</label>
 								<input type="text" th:field="*{nombre}"
 									placeholder="Ej: Patatas fritas" required>
 							</div>
-							<div class="display-row">
+							<div class="display-column-form">
 								<label>Dificultad:</label>
 								<select th:field="*{dificultad.id}">
 									<option th:each="elem:${listaDificultades}"

@@ -20,7 +20,6 @@ public class RolServicioImp implements RolServicio{
 		try {
 			return rolRepo.findAll(Sort.by(Sort.Direction.ASC, "id"));
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 			return null;
 		}

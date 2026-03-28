@@ -27,7 +27,7 @@
 				</div>
 				<div>
 					<label>Contraseña:</label>
-					<input type="text" id="pass_sin_hash" oninput="calcularSha256();"></input>
+					<input type="password" id="pass_sin_hash" oninput="calcularSha256();"></input>
 				</div>
 				<input type="hidden" th:field="*{pass}" value=""></input>
 				<input type="submit" value="Enviar">

@@ -31,12 +31,12 @@
 			</div>
 		</div>
 		<div id="contenedor-section">
-			<section class="section-form section-datos"
+			<section class="section-form-put"
 				th:if="${'ADMIN'.equals(s_usu.role.nombre) || 'USUARIO'.equals(s_usu.role.nombre)}">
 				<div>
 					<form th:action="@{/ModificarDificultad}" method="post"
 						th:object="${obj_dificultad}">
-							<div class="display-row">
+							<div class="display-column-form">
 								<input type="hidden" th:field="*{id}">
 								<label>Nombre:</label>
 								<input type="text" th:field="*{dificultad}"
@@ -44,7 +44,7 @@
 							</div>
 							<div class="display-row">
 								<div>
-								<a th:href="@{/MenuInicio}" class="a-svg-back">
+								<a th:href="@{/MenuDificultades}" class="a-svg-back">
 									<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 8 8"><path fill="currentColor" d="M4 2h4v6H4l1-2h1V4H4v2L0 3l4-3"/ class="svg-back"></svg>
 								</a>								
 								</div>							

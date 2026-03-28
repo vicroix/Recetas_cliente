@@ -36,7 +36,7 @@
 			</div>
 		</div>
 		<div id="contenedor-section">
-			<section class="section-form section-datos"
+			<section class="section-form-insert"
 				th:if="${'ADMIN'.equals(s_usu.role.nombre) || 'USUARIO'.equals(s_usu.role.nombre)}">
 				<div>
 					<form th:action="@{/InsertarReceta}" method="post"
@@ -45,34 +45,32 @@
 							<h3 class="titulo-form">Insertar receta</h3>
 						</div>
 						<div class="display-row">
-							<div class="display-row">
-								<label>Nombre:</label> <input type="text" th:field="*{nombre}"
-									placeholder="Ej: Patatas fritas" required>
-							</div>
-							<div class="display-row">
-								<label>Dificultad:</label>
-								<select th:field="*{dificultad.id}">
-									<option th:each="elem:${listaDificultades}"
-										th:value="${elem.id}" th:text="${elem.dificultad}" required>
-								</select>
+							<div class="display-row-inputs">
+								<div class="display-row-inputs">
+									<label>Nombre:</label> <input type="text" th:field="*{nombre}"
+										placeholder="Ej: Patatas fritas" required>
+								</div>
+								<div class="display-row-inputs">
+									<label>Dificultad:</label> <select th:field="*{dificultad.id}">
+										<option th:each="elem:${listaDificultades}"
+											th:value="${elem.id}" th:text="${elem.dificultad}" required>
+									</select>
+								</div>
 							</div>
 							<input type="submit" value="Insertar vehiculo">
 						</div>
 					</form>
 				</div>
 			</section>
-			<section>
+			<section class="section-table">
 				<div class="section-datos">
 					<table>
 						<thead>
 							<tr>
-								<th>ID
-								</th>
-								<th>NOMBRE
-								</th>
-								<th>Dificultad
-								</th>
-								<th>Gestión</th>
+								<th>ID</th>
+								<th>NOMBRE</th>
+								<th>Dificultad</th>
+								<th th:if="${'ADMIN'.equals(s_usu.role.nombre)}">Gestión</th>
 							</tr>
 						</thead>
 						<tbody>
@@ -80,10 +78,22 @@
 								<td th:text="${elem.id}"></td>
 								<td th:text="${elem.nombre}"></td>
 								<td th:text="${elem.dificultad.dificultad}"></td>
-								<td>
-									<a th:href="@{/ModificarReceta(id=${elem.id})}"
-										class="modificar">Modificar</a>
-									<a th:href="@{/BorrarReceta(id=${elem.id})}" class="borrar">Borrar</a></td>
+								<td th:if="${'ADMIN'.equals(s_usu.role.nombre)}">
+									<div>
+										<a th:href="@{/ModificarReceta(id=${elem.id})}"
+											class="modificar">
+												<svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24">
+													<path fill="#000000" d="M8.707 19.707L18 10.414L13.586 6l-9.293 9.293a1 1 0 0 0-.263.464L3
+													 	21l5.242-1.03c.176-.044.337-.135.465-.263M21 7.414a2 2 0 0 0 0-2.828L19.414 3a2 2 0 0 0-2.828 0L15 4.586L19.414 9z"/>
+												</svg>
+											</a>
+										<a th:href="@{/BorrarReceta(id=${elem.id})}" class="borrar">
+											<svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24">
+												<path fill="#000000" d="M19 4h-3.5l-1-1h-5l-1 1H5v2h14M6 19a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V7H6z"/>
+											</svg>
+										</a>									
+									</div>
+								</td>
 							</tr>
 						</tbody>
 					</table>

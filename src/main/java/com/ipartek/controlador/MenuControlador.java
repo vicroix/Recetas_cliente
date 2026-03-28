@@ -100,4 +100,25 @@ public class MenuControlador {
 		}
 		return "redirect:/";
 	}
+	
+	@GetMapping("/Perfil")
+	public String perfil(
+			Model model,
+			HttpSession session) {
+		String token = "";
+		if ((String) session.getAttribute("s_token") != null) {
+			token = (String) session.getAttribute("s_token");
+		}
+		if(jwtUtil.isTokenValid(token)) {
+			Claims claims = jwtUtil.extractClaims(token);
+			if(claims.get("rol").equals("ADMIN") || claims.get("rol").equals("USUARIO")) {
+				Usuario usu = (Usuario) session.getAttribute("s_usu");
+				Usuario obj_usuario = (Usuario)session.getAttribute("s_usu");
+				model.addAttribute("obj_usuario", obj_usuario);
+				model.addAttribute("s_usu", (Usuario)session.getAttribute("s_usu"));
+				return "perfil";				
+			}
+		}
+		return "redirect:/";
+	}
 }
