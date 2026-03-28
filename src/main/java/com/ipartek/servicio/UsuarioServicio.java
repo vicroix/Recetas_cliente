@@ -8,6 +8,7 @@ public interface UsuarioServicio {
 	List<Usuario> obtenerTodosUsuarios();
 	Usuario obtenerUsuarioPorId(Integer id);
 	Usuario obtenerUsuarioPorNombre(String nombre);
+	List<Usuario> obtenerUsuarioRolNombre(String nombre);
 	Usuario guardarUsuario(Usuario usu);
 	Usuario modificarUsuario(Usuario usu);
 	Boolean borrarUsuario(Integer id);

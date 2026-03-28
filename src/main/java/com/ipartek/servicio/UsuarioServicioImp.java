@@ -44,7 +44,17 @@ public class UsuarioServicioImp implements UsuarioServicio{
 			return null;
 		}
 	}
-
+	
+	@Override
+	public List<Usuario> obtenerUsuarioRolNombre(String nombre) {
+		try {
+			return usuarioRepo.findByRoleNombre(nombre);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
+	
 	@Override
 	public Usuario guardarUsuario(Usuario usu) {
 		try {

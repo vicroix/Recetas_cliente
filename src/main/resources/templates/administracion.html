@@ -15,88 +15,112 @@
 	<nav th:include="plantillas/plantillas.html::menu"></nav>
 
 	<main id="main-admin">
-			<section>
-				<div>
-					<form th:action="@{/RegistrarUsuario}" method="post"
-						th:object="${obj_usuario}" class="display-column">
-						<div>
-							<h2 class="titulo-form">Insertar usuario</h2>
-						</div>
-						<div class="display-row">
-							<div class="display-row-inputs">
-								<div>
-									<label>Usuario:</label> <input type="text" th:field="*{user}"
-										value=""></input>
-								</div>
-								<div>
-									<label>Contraseña:</label> <input type="password"
-										id="pass_sin_hash" oninput="calcularSha256();"></input>
-								</div>
-								<div>
-									<select th:field="*{role.id}">
-										<option th:each="elem:${listaRoles}" th:value="${elem.id}"
-											th:text="${elem.nombre}">
-									</select>
-								</div>
+		<section>
+			<div>
+				<form th:action="@{/RegistrarUsuario}" method="post"
+					th:object="${obj_usuario}" class="display-column">
+					<div>
+						<h2 class="titulo-form">Insertar usuario</h2>
+					</div>
+					<div class="display-row">
+						<div class="display-row-inputs">
+							<div>
+								<label>Usuario:</label> <input type="text" th:field="*{user}"
+									value=""></input>
 							</div>
-							<input type="hidden" th:field="*{pass}" value=""></input> <input
-								type="submit" value="Registrar">
+							<div>
+								<label>Contraseña:</label> <input type="password"
+									id="pass_sin_hash" oninput="calcularSha256();"></input>
+							</div>
+							<div>
+								<label>Rol:</label> <select th:field="*{role.id}">
+									<option th:each="elem:${listaRoles}" th:value="${elem.id}"
+										th:text="${elem.nombre}">
+								</select>
+							</div>
 						</div>
-					</form>
-				</div>
-			</section>
-			<section class="section-table">
-				<div class="section-datos">
-					<table class="administracion">
-						<thead>
-							<tr>
-								<th class="data-id">ID</th>
-								<th>Nombre</th>
-								<th>Pass</th>
-								<th>Salt</th>
-								<th class="data-id">R_ID</th>
-								<th>ROL</th>
-								<th>Gestión</th>
-							</tr>
-						</thead>
-						<tbody>
-							<tr th:each="elem:${listaUsuarios}">
-								<td th:text="${elem.id}" th:title="${elem.id}"
-									class="texto-recortado"></td>
-								<td th:text="${elem.user}" th:title="${elem.user}"
-									class="texto-recortado"></td>
-								<td th:text="${elem.pass}" th:title="${elem.pass}"
-									class="texto-recortado"></td>
-								<td th:text="${elem.salt}" th:title="${elem.salt}"
-									class="texto-recortado"></td>
-								<td th:text="${elem.role.id}" th:title="${elem.role.id}"
-									class="texto-recortado"></td>
-								<td th:text="${elem.role.nombre}" th:title="${elem.role.nombre}"
-									class="texto-recortado"></td>
-								<td>
-									<div>
-										<a th:href="@{/ModificarUsuario(id=${elem.id})}"
-											class="modificar"> <svg
-												xmlns="http://www.w3.org/2000/svg" width="15" height="15"
-												viewBox="0 0 24 24">
+						<input type="hidden" th:field="*{pass}" value=""></input> <input
+							type="submit" value="Registrar">
+					</div>
+				</form>
+			</div>
+		</section>
+		<section class="section-table">
+			<div>
+				<form th:action="@{/filtrarTabla}" method="get"
+					class="display-column">
+					<div>
+						<h2 class="titulo-form">Filtro búsqueda</h2>
+					</div>
+					<div class="display-row">
+						<div class="display-row-inputs">
+							<div>
+								<label>Usuario:</label>
+								<input type="text" name="usuario">
+							</div>
+							<div>
+								<label>Rol:</label> <select name="rol_nombre">
+									<option value="">
+									<option th:each="elem:${listaRoles}" th:value="${elem.nombre}"
+										th:text="${elem.nombre}">
+								</select>
+							</div>
+						</div>
+						<input type="submit" value="Buscar">
+					</div>
+				</form>
+			</div>
+			<div class="section-datos">
+
+				<table class="administracion">
+					<thead>
+						<tr>
+							<th class="data-id">ID</th>
+							<th>Nombre</th>
+							<th>Pass</th>
+							<th>Salt</th>
+							<th class="data-id">R_ID</th>
+							<th>ROL</th>
+							<th>Gestión</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr th:each="elem:${listaUsuarios}">
+							<td th:text="${elem.id}" th:title="${elem.id}"
+								class="texto-recortado"></td>
+							<td th:text="${elem.user}" th:title="${elem.user}"
+								class="texto-recortado"></td>
+							<td th:text="${elem.pass}" th:title="${elem.pass}"
+								class="texto-recortado"></td>
+							<td th:text="${elem.salt}" th:title="${elem.salt}"
+								class="texto-recortado"></td>
+							<td th:text="${elem.role.id}" th:title="${elem.role.id}"
+								class="texto-recortado"></td>
+							<td th:text="${elem.role.nombre}" th:title="${elem.role.nombre}"
+								class="texto-recortado"></td>
+							<td>
+								<div>
+									<a th:href="@{/ModificarUsuario(id=${elem.id})}"
+										class="modificar"> <svg xmlns="http://www.w3.org/2000/svg"
+											width="15" height="15" viewBox="0 0 24 24">
 												<path fill="currentColor"
-													d="M8.707 19.707L18 10.414L13.586 6l-9.293 9.293a1 1 0 0 0-.263.464L3
+												d="M8.707 19.707L18 10.414L13.586 6l-9.293 9.293a1 1 0 0 0-.263.464L3
 														21l5.242-1.03c.176-.044.337-.135.465-.263M21 7.414a2 2 0 0 0 0-2.828L19.414 3a2 2 0 0 0-2.828 0L15 4.586L19.414 9z" />
 											</svg>
-										</a> <a th:href="@{/BorrarUsuario(id=${elem.id})}" class="borrar">
-											<svg xmlns="http://www.w3.org/2000/svg" width="15"
-												height="15" viewBox="0 0 24 24">
+									</a> <a th:href="@{/BorrarUsuario(id=${elem.id})}" class="borrar">
+										<svg xmlns="http://www.w3.org/2000/svg" width="15" height="15"
+											viewBox="0 0 24 24">
 												<path fill="currentColor"
-													d="M19 4h-3.5l-1-1h-5l-1 1H5v2h14M6 19a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V7H6z" />
+												d="M19 4h-3.5l-1-1h-5l-1 1H5v2h14M6 19a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V7H6z" />
 											</svg>
-										</a>
-									</div>
-								</td>
-							</tr>
-						</tbody>
-					</table>
-				</div>
-			</section>
+									</a>
+								</div>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</section>
 	</main>
 
 	<footer th:include="plantillas/plantillas.html::pie"></footer>

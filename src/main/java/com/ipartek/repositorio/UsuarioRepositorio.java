@@ -14,4 +14,6 @@ public interface UsuarioRepositorio extends JpaRepository<Usuario, Integer>{
 	List<Usuario> findAllSaniticed();
 	
 	Usuario findByUser(String user);
+	
+	List<Usuario> findByRoleNombre(String rol);
 }
