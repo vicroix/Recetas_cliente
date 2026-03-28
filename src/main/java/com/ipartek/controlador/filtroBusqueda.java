@@ -32,18 +32,10 @@ public class filtroBusqueda {
 			@RequestParam String rol_nombre) {
 		
 		try {
-			System.out.println("=================");
-			System.out.println("USU DEL FORM: " + usuario);
 			if(usuario!=null && !usuario.isEmpty() && !"".equals(usuario)) {
-				Usuario usuarioEncontrado = usuarioServ.obtenerUsuarioPorNombre(usuario);
-				System.out.println("=================");
-				System.out.println("USU ENCONTRADO EN BBDD: " + usuarioEncontrado);
-				if(usuarioEncontrado!=null && usuarioEncontrado.getId()>0) {
-					List<Usuario> listaUsuarioEncontrado = new ArrayList<Usuario>();
-					listaUsuarioEncontrado.add(usuarioEncontrado);
-					model.addAttribute("listaUsuarios", listaUsuarioEncontrado);
-					System.out.println("=================");
-					System.out.println("LISTA DE USUARIOS: " + listaUsuarioEncontrado);
+				List<Usuario> usuarioEncontrado = usuarioServ.obtenerUsuariosPorNombre(usuario);
+				if(usuarioEncontrado!=null) {
+					model.addAttribute("listaUsuarios", usuarioEncontrado);
 				} else {
 					model.addAttribute("listaUsuarios", usuarioServ.obtenerTodosUsuarios());
 				}
@@ -52,7 +44,7 @@ public class filtroBusqueda {
 			}
 			
 			if(rol_nombre!=null && !rol_nombre.isEmpty() && !"".equals(rol_nombre)) {
-				model.addAttribute("listaUsuarios", usuarioServ.obtenerUsuarioRolNombre(rol_nombre));
+				model.addAttribute("listaUsuarios", usuarioServ.obtenerUsuariosRolNombre(rol_nombre));
 			}
 			
 			model.addAttribute("obj_usuario", new Usuario());

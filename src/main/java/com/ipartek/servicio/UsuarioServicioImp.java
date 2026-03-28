@@ -10,11 +10,11 @@ import com.ipartek.modelo.Usuario;
 import com.ipartek.repositorio.UsuarioRepositorio;
 
 @Service
-public class UsuarioServicioImp implements UsuarioServicio{
+public class UsuarioServicioImp implements UsuarioServicio {
 
 	@Autowired
 	private UsuarioRepositorio usuarioRepo;
-	
+
 	@Override
 	public List<Usuario> obtenerTodosUsuarios() {
 		try {
@@ -44,11 +44,11 @@ public class UsuarioServicioImp implements UsuarioServicio{
 			return null;
 		}
 	}
-	
+
 	@Override
-	public List<Usuario> obtenerUsuarioRolNombre(String nombre) {
+	public List<Usuario> obtenerUsuariosPorNombre(String nombre) {
 		try {
-			return usuarioRepo.findByRoleNombre(nombre);
+			return usuarioRepo.findByUsers(nombre);
 		} catch (Exception e) {
 			e.printStackTrace();
 			return null;
@@ -56,11 +56,21 @@ public class UsuarioServicioImp implements UsuarioServicio{
 	}
 	
 	@Override
+	public List<Usuario> obtenerUsuariosRolNombre(String nombre) {
+		try {
+			return usuarioRepo.findByRoleNombre(nombre);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
+
+	@Override
 	public Usuario guardarUsuario(Usuario usu) {
 		try {
-			if (usu.getId()==0) {
+			if (usu.getId() == 0) {
 				return usuarioRepo.save(usu);
-			}else {
+			} else {
 				return new Usuario();
 			}
 		} catch (Exception e) {
@@ -72,9 +82,9 @@ public class UsuarioServicioImp implements UsuarioServicio{
 	@Override
 	public Usuario modificarUsuario(Usuario usu) {
 		try {
-			if (usu.getId()>0) {
+			if (usu.getId() > 0) {
 				return usuarioRepo.save(usu);
-			}else {
+			} else {
 				return new Usuario();
 			}
 		} catch (Exception e) {
@@ -87,12 +97,12 @@ public class UsuarioServicioImp implements UsuarioServicio{
 	public Boolean borrarUsuario(Integer id) {
 		try {
 			usuarioRepo.deleteById(id);
-			
-			Usuario usu= obtenerUsuarioPorId(id);
-			
-			if (usu==null || usu.getId()==id) {
+
+			Usuario usu = obtenerUsuarioPorId(id);
+
+			if (usu == null || usu.getId() == id) {
 				return false;
-			}else {
+			} else {
 				return true;
 			}
 		} catch (Exception e) {
