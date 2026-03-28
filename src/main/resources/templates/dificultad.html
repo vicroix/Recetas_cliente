@@ -14,78 +14,64 @@
 
 	<nav th:include="plantillas/plantillas.html::menu"></nav>
 
-	<main>
-		<div class="contenedor-titulo-section">
+	<main id="main-dificultad">
+		<section
+			th:if="${'ADMIN'.equals(s_usu.role.nombre) || 'USUARIO'.equals(s_usu.role.nombre)}">
 			<div>
-				<svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 128 128">
-					<path fill="#4EC1F5" d="M63.38 4.07c-4.22.09-5.44 4.69-6.95 8.45s-10.5 24.21-16.32 34.53s-13.7 23.84-12.58 43.17c1.13 19.33 16.14 33.76 37.17 33.6c19.01-.14 35.64-11.1 36.32-34.91c.56-19.71-10.28-36.74-15.63-47.16c-3.18-6.2-13.59-26.95-14.69-29.52c-1.97-4.6-2.81-8.26-7.32-8.16"/>
-					<path fill="#B3E2FB" d="M47.38 64.42c-2.96.13-10 9.29-10 20.84s5.45 20.08 11.4 18.86c6.9-1.41 5.77-8.45 4.36-14.08c-1.21-4.84-3.1-10.56-3.52-15.77c-.26-3.37.86-9.99-2.24-9.85"/>
-				</svg>
-			</div>
-			<h2>Dificultad</h2>
-			<div>
-				<svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" viewBox="0 0 128 128">
-				<path fill="#4EC1F5" d="M63.38 4.07c-4.22.09-5.44 4.69-6.95 8.45s-10.5 24.21-16.32 34.53s-13.7 23.84-12.58 43.17c1.13 19.33 16.14 33.76 37.17 33.6c19.01-.14 35.64-11.1 36.32-34.91c.56-19.71-10.28-36.74-15.63-47.16c-3.18-6.2-13.59-26.95-14.69-29.52c-1.97-4.6-2.81-8.26-7.32-8.16"/>
-				<path fill="#B3E2FB" d="M47.38 64.42c-2.96.13-10 9.29-10 20.84s5.45 20.08 11.4 18.86c6.9-1.41 5.77-8.45 4.36-14.08c-1.21-4.84-3.1-10.56-3.52-15.77c-.26-3.37.86-9.99-2.24-9.85"/>
-			</svg>
-			</div>
-		</div>
-		<div id="contenedor-section">
-			<section class="section-form-insert"
-				th:if="${'ADMIN'.equals(s_usu.role.nombre) || 'USUARIO'.equals(s_usu.role.nombre)}">
-				<div>
-					<form th:action="@{/InsertarDificultad}" method="post"
-						th:object="${obj_dificultad}" class="display-column">
+				<form th:action="@{/InsertarDificultad}" method="post"
+					th:object="${obj_dificultad}" class="display-column">
+					<div>
+						<h2 class="titulo-form">Insertar dificultad</h2>
+					</div>
+					<div class="display-row-inputs">
 						<div>
-							<h3 class="titulo-form">Insertar dificultad</h3>
+							<label>Nombre:</label> <input type="text"
+								th:field="*{dificultad}" placeholder="Ej: Muy facil" required>
 						</div>
-						<div class="display-row">
-							<div class="display-row-inputs">
-								<label>Nombre:</label>
-								<input type="text" th:field="*{dificultad}"
-									placeholder="Ej: Muy facil" required>
-							</div>
-							<input type="submit" value="Insertar dificultad">
+						<div>
+							<input type="submit" value="Insertar dificultad">						
 						</div>
-					</form>
-				</div>
-			</section>
-			<section class="section-table">
-				<div class="section-datos">
-					<table>
-						<thead>
-							<tr>
-								<th>ID</th>
-								<th>Dificultad</th>
-								<th th:if="${'ADMIN'.equals(s_usu.role.nombre)}">Gestión</th>
-							</tr>
-						</thead>
-						<tbody>
-							<tr th:each="elem: ${listaDificultades}">
-								<td th:text="${elem.id}"></td>
-								<td th:text="${elem.dificultad}"></td>
-								<td th:if="${'ADMIN'.equals(s_usu.role.nombre)}">
-									<div>
-										<a th:href="@{/ModificarDificultad(id=${elem.id})}"
-											class="modificar">
-												<svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24">
-													<path fill="#000000" d="M8.707 19.707L18 10.414L13.586 6l-9.293 9.293a1 1 0 0 0-.263.464L3
-													 	21l5.242-1.03c.176-.044.337-.135.465-.263M21 7.414a2 2 0 0 0 0-2.828L19.414 3a2 2 0 0 0-2.828 0L15 4.586L19.414 9z"/>
+					</div>
+				</form>
+			</div>
+		</section>
+		<section class="section-table">
+			<div class="section-datos">
+				<table>
+					<thead>
+						<tr>
+							<th>ID</th>
+							<th>Dificultad</th>
+							<th th:if="${'ADMIN'.equals(s_usu.role.nombre)}">Gestión</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr th:each="elem: ${listaDificultades}">
+							<td th:text="${elem.id}"></td>
+							<td th:text="${elem.dificultad}"></td>
+							<td th:if="${'ADMIN'.equals(s_usu.role.nombre)}">
+								<div>
+									<a th:href="@{/ModificarDificultad(id=${elem.id})}"
+										class="modificar"> <svg xmlns="http://www.w3.org/2000/svg"
+											width="15" height="15" viewBox="0 0 24 24">
+													<path fill="currentColor"
+												d="M8.707 19.707L18 10.414L13.586 6l-9.293 9.293a1 1 0 0 0-.263.464L3
+													 	21l5.242-1.03c.176-.044.337-.135.465-.263M21 7.414a2 2 0 0 0 0-2.828L19.414 3a2 2 0 0 0-2.828 0L15 4.586L19.414 9z" />
 												</svg>
-											</a>
-										<a th:href="@{/BorrarDificultad(id=${elem.id})}" class="borrar">
-											<svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24">
-												<path fill="#000000" d="M19 4h-3.5l-1-1h-5l-1 1H5v2h14M6 19a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V7H6z"/>
+									</a> <a th:href="@{/BorrarDificultad(id=${elem.id})}"
+										class="borrar"> <svg xmlns="http://www.w3.org/2000/svg"
+											width="15" height="15" viewBox="0 0 24 24">
+												<path fill="currentColor"
+												d="M19 4h-3.5l-1-1h-5l-1 1H5v2h14M6 19a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V7H6z" />
 											</svg>
-										</a>
-									</div>
-								</td>
-							</tr>
-						</tbody>
-					</table>
-				</div>
-			</section>
-		</div>
+									</a>
+								</div>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</section>
 	</main>
 
 	<footer th:include="plantillas/plantillas.html::pie"></footer>

@@ -2,11 +2,12 @@
 	--colorPrincipal: rgb(255, 128, 0);
 	--colorPrincipalClaro: rgb(255, 167, 79);
 	--colorPrincipalOscuro: #3E2723;
+	--colorPrincipalOscuroActivo: rgb(113, 71, 64);
 	--colorContraste: #DAA520;
 	--colorContrasteOscuro: rgb(255, 206, 187);
 	--colorContrasteClaro: #FAF9F6;
 	--colorPeligro: rgb(255, 55, 55);
-	--colorPeligroClaro: rgb(255, 89, 89);
+	--colorPeligroActivo: rgb(255, 89, 89);
 	--fondoClaro: #F4F7FC;
 	--fondoOscuro: #6C757D;
 	--fondoCristal: rgba(190, 200, 220, 0.2);
@@ -186,6 +187,11 @@ main {
 	min-height: calc(100vh - var(--alturaCabecera)- var(--altoBotonMenu)- var(--alturaPie)-
 		
 		
+		
+		
+		
+		
+		
 			
 		 (4* var(--paddingGeneral)));
 	box-sizing: border-box;
@@ -211,67 +217,34 @@ section {
 	justify-content: center;
 	gap: 8px;
 	height: 100%;
+	margin-top: 1.25rem;
 }
 
-.section-form-insert {
-	display: flex;
-	flex-direction: column;
-	border: 0.5px solid var(--fondoCristalOscuro);
-	padding: 0;
-	border-radius: 4px;
+#main-admin {
+	background-image: url('/imagenes/fondo-admin.png');
+	background-repeat: no-repeat;
+	background-size: 100% 100%;
+	background-position: center;
 }
 
-.section-form-put {
-	display: flex;
-	flex-direction: column;
-	border: 0.5px solid var(--fondoCristalOscuro);
-	padding: 0;
-	border-radius: 4px;
+#main-inicio {
+	background-image: url('/imagenes/fondo-inicio.png');
+	background-repeat: no-repeat;
+	background-size: 100% 100%;
+	background-position: center;
 }
 
-.section-table {
-	display: flex;
-	justify-content: center;
-	margin: auto;
-	width: 100%;
-	overflow: hidden;
+#main-dificultad {
+	background-image: url('/imagenes/fondo-dificultad.png');
+	background-repeat: no-repeat;
+	background-size: 100% 100%;
+	background-position: center;
 }
 
-.section-datos {
-	max-height: 247px;
-	display: flex;
-	/* 	flex-direction: column; */
-	/* 	align-items: center; */
-	/* 	justify-content: center; */
-	overflow-y: auto;
-	background-color: var(--fondoClaro);
-	text-align: center;
-	max-width: 90%;
-	margin-top: 20px;
-	margin-bottom: 20px;
-}
-
-.section-datos table {
-	width: 100%;
-	min-width: 250px;
-	max-width: 500px;
-	margin: 0 auto;
-	border-collapse: collapse;
-	margin: 0 auto;
-}
-
-.titulo-form {
-	color: var(--fondoClaro);
-	text-shadow: 0 2px 2px var(--colorPrincipalOscuro);
-}
-
-#contenedor-section-admin {
-	display: grid;
-	gap: 0.15rem;
-	grid-template-columns: repeat(1, 1fr);
-	background-image: linear-gradient(rgba(255, 255, 255, 0.25),
-		rgba(255, 255, 255, 0.35)), url('/imagenes/fondo-administracion.png');
-	background-size: cover;
+#main-perfil {
+	background-image: url('/imagenes/fondo-perfil.png');
+	background-repeat: no-repeat;
+	background-size: 100% 100%;
 	background-position: center;
 }
 
@@ -287,13 +260,58 @@ section {
 	border-radius: 4px;
 }
 
+.section-form-put {
+	display: flex;
+	flex-direction: column;
+	border: 0.5px solid var(--fondoCristalOscuro);
+	padding: 0;
+	border-radius: 4px;
+}
+
+.section-table {
+	display: flex;
+	justify-content: center;
+	margin: auto;
+	margin-top: 1%;
+	width: 100%;
+	overflow: hidden;
+	width: 100%;
+}
+
+.section-datos {
+	max-height: 344px;
+	display: flex;
+	overflow-y: auto;
+	text-align: center;
+	max-width: 90%;
+	margin-top: 20px;
+	margin-bottom: 2.75rem;
+}
+
+.section-datos table {
+	width: 100%;
+	min-width: 250px;
+	max-width: 500px;
+	margin: 0 auto;
+	border-collapse: collapse;
+	margin: 0 auto;
+}
+
+.titulo-form {
+	color: var(--fondoClaro);
+	text-shadow: 0 2px 2px var(--colorPrincipalOscuro);
+	padding: 4px 8px;
+	text-align: center;
+}
+
 form {
-	padding: 6px;
+	padding: 12px 18px;
 	display: flex;
 	gap: 1.25rem;
-	align-items: center;
 	flex-direction: column;
 	border-radius: 4px;
+	background: rgba(255, 255, 255, 0.4);
+	backdrop-filter: blur(10px);
 }
 
 .form-no-border {
@@ -369,7 +387,6 @@ h2 {
 form div {
 	display: flex;
 	flex-direction: column;
-	padding-bottom: 8px;
 }
 
 form div:first-child {
@@ -394,22 +411,25 @@ label {
 
 .svg-back {
 	color: var(--colorPrincipalOscuro);
+	transition: all 0.3s ease-in-out;
 }
 
 .a-svg-back:hover .svg-back {
 	color: var(--colorPrincipal);
+	stroke: var(--colorPrincipalOscuroActivo);
+	stroke-width: 0.5px;
 }
 
 .a-svg-back:active .svg-back {
 	color: var(--colorPrincipalClaro);
+	stroke: var(--colorPrincipal);
+	stroke-width: 0.5px;
 }
 
 input[type="text"], input[type="password"], input[type="number"], select
 	{
 	width: 100%;
-	padding: 2px;
-	padding-left: 6px;
-	padding-right: 6px;
+	padding: 2px 4px;
 	border: 1px solid #bbb;
 	border-radius: 4px;
 	box-sizing: border-box;
@@ -432,24 +452,26 @@ input[type="submit"], .contenedor-lista-botones a {
 	width: 160px;
 	background-color: var(--fondoClaro);
 	color: var(--colorPrincipalOscuro);
-	border: 1px solid var(--fondoOscuro);
+	box-shadow: 0 0 1px 1px var(--fondoClaro);
 	padding: 5px;
 	border-radius: 8px;
 	cursor: pointer;
 	transition: all 0.2s ease-in;
 	font-weight: bold;
+	border: 0;
+	transition: all 0.35s ease-in-out;
 }
 
 input[type="submit"]:hover, .contenedor-lista-botones a:hover {
-	background-color: var(--colorPrincipal);
+	background-color: var(--colorPrincipalOscuro);
 	color: var(--fondoClaro);
-	border: 1px solid var(--colorPrincipal);
+	box-shadow: 0 0 1px 1px var(--colorPrincipalOscuro);
 }
 
 input[type="submit"]:active, .contenedor-lista-botones a:hover {
-	background-color: var(--colorPrincipalClaro);
+	background-color: var(--colorPrincipalOscuroActivo);
 	color: var(--fondoClaro);
-	border: 1px solid var(--colorContraste);
+	box-shadow: 0 0 1px 1px var(--colorPrincipalOscuroActivo);
 }
 
 /* pie de la pagina  */
@@ -468,19 +490,21 @@ footer {
 table {
 	width: 100%;
 	border-spacing: 0;
-	box-shadow: 0 0 1px 1px var(--fondoCristalOscuro);
-	border-radius: 8px;
 	overflow-y: scroll;
 	overflow-x: hidden;
-	background-color: var(--fondoClaro);
+	backdrop-filter: blur(10px);
 	border-collapse: separate;
 	table-layout: fixed;
+	border-collapse: separate;
+	background: rgba(255, 255, 255, 0.4);
+	border-radius: 4px;
 }
 
 thead {
 	position: sticky;
 	top: 0;
 	z-index: 2;
+	background: var(--colorPrincipalOscuro);
 }
 
 thead th {
@@ -496,11 +520,11 @@ thead th {
 }
 
 thead th:first-child {
-	border-radius: 8px 0 0 0;
+	border-radius: 4px 0 0 0;
 }
 
 thead th:last-child {
-	border-radius: 0 8px 0 0;
+	border-radius: 0 4px 0 0;
 }
 
 .vehiculos thead tr th, .administracion thead tr th {
@@ -543,28 +567,35 @@ td a {
 	text-decoration: none;
 	background-color: var(--fondoClaro);
 	color: var(--colorPrincipalOscuro);
-	border: 1px solid var(--colorPrincipalOscuro);
+	box-shadow: 0 0 1px 1px var(--fondoClaro);
 	padding: 5px;
 	border-radius: 4px;
-	transition: all 0.2s ease-in;
+	transition: all 0.3s ease-in-out;
 	font-size: 14px;
 	font-weight: bold;
 }
 
 td a:hover {
-	background-color: var(--colorPrincipal);
+	background-color: var(--colorPrincipalOscuro);
+	box-shadow: 0 0 1px 1px var(--colorPrincipalOscuro);
 	color: var(--fondoClaro);
-	border: 1px solid var(--colorContraste);
+}
+
+td a:active {
+	background-color: var(--colorPrincipalOscuroActivo);
+	box-shadow: 0 0 1px 1px var(--colorPrincipalOscuroActivo);
+	color: var(--fondoClaro);
 }
 
 td .borrar:hover {
 	background-color: var(--colorPeligro);
+	box-shadow: 0 0 1px 1px var(--colorPeligro);
 	color: var(--fondoClaro);
-	border: 1px solid var(--colorPeligro);
 }
 
 td .borrar:active {
-	background-color: var(--colorPeligroClaro);
+	background-color: var(--colorPeligroActivo);
+	box-shadow: 0 0 1px 1px var(--colorPeligroActivo);
 }
 
 .contenedor-full {
@@ -606,18 +637,16 @@ td .borrar:active {
 	width: 100%;
 	display: flex;
 	flex-direction: row;
-	align-items: center;
-	justify-content: center;
+	align-items: end;
+	justify-content: space-between;
 	padding: 0;
-	gap: 1.75rem;
 }
 
 .display-row-inputs {
 	width: 100%;
 	display: flex;
 	flex-direction: row;
-	align-items: center;
-	justify-content: center;
+	align-items: end;
 	padding: 0;
 	gap: 1.25rem;
 }
@@ -675,7 +704,7 @@ td .borrar:active {
 	align-items: center;
 	position: absolute;
 	top: 100%;
-	background-color: var(--fondoCristalOscuro);
+	background-color: var(--fondoCristalOscuroOpaco);
 	z-index: 10;
 	border-radius: 0 0 4px 4px;
 	opacity: 0;

@@ -14,92 +14,72 @@
 
 	<nav th:include="plantillas/plantillas.html::menu"></nav>
 
-	<main>
-		<div class="contenedor-titulo-section">
+	<main id="main-inicio">
+		<section
+			th:if="${'ADMIN'.equals(s_usu.role.nombre) || 'USUARIO'.equals(s_usu.role.nombre)}">
 			<div>
-				<svg xmlns="http://www.w3.org/2000/svg" width="30" height="30"
-					viewBox="0 0 48 48">
-					<path fill="none" stroke="#ea580c" stroke-width="3"
-						stroke-linecap="round" stroke-linejoin="round"
-						d="m6.022 40.364l15.105-28.122a2.593 2.593 0 0 1 4.02-.893c1.182 1.119 11.295 10.63 12.618 11.873a2.387 2.387 0 0 1-.15 3.834l-28.23 16.13a2.335 2.335 0 0 1-3.363-2.822M38.62 4.5l-5.657 10.72l9.156-2.903M17.744 18.54l5.024 4.833m1.904 11.078l-3.994-4.001m-10.059 1.356l2.63 2.501" /></svg>
-			</div>
-			<h2>Recetas</h2>
-			<div>
-				<svg xmlns="http://www.w3.org/2000/svg" width="30" height="30"
-					viewBox="0 0 48 48">
-					<path fill="none" stroke="#e11d48" stroke-width="3"
-						stroke-linecap="round" stroke-linejoin="round"
-						d="M32.756 12.664c-6.218 6.81-15.947 8.248-15.947 18.865c0 9.137 4.794 11.971 10.533 11.971c5.315 0 9.898-4.695 9.898-11.97c0-8.038-6.684-11.845-6.684-11.845" />
-					<path fill="none" stroke="#e11d48" stroke-linecap="round"
-						stroke-linejoin="round"
-						d="M31.035 14.366s-2.718 2.835-7.754 2.105c-5.42-.787-8.21-6.066-12.52-2.707C12.705 6.488 15.54 4.5 20.573 4.5s8.206 5.16 9.01 7.149c-4.146 3.003-6.627-5.006-12.718-2.017" /></svg>
-			</div>
-		</div>
-		<div id="contenedor-section">
-			<section class="section-form-insert"
-				th:if="${'ADMIN'.equals(s_usu.role.nombre) || 'USUARIO'.equals(s_usu.role.nombre)}">
-				<div>
-					<form th:action="@{/InsertarReceta}" method="post"
-						th:object="${obj_receta}" class="display-column">
-						<div>
-							<h3 class="titulo-form">Insertar receta</h3>
-						</div>
-						<div class="display-row">
-							<div class="display-row-inputs">
-								<div class="display-row-inputs">
-									<label>Nombre:</label> <input type="text" th:field="*{nombre}"
-										placeholder="Ej: Patatas fritas" required>
-								</div>
-								<div class="display-row-inputs">
-									<label>Dificultad:</label> <select th:field="*{dificultad.id}">
-										<option th:each="elem:${listaDificultades}"
-											th:value="${elem.id}" th:text="${elem.dificultad}" required>
-									</select>
-								</div>
+				<form th:action="@{/InsertarReceta}" method="post"
+					th:object="${obj_receta}" class="display-column">
+					<div>
+						<h2 class="titulo-form">Insertar receta</h2>
+					</div>
+					<div class="display-row">
+						<div class="display-row-inputs">
+							<div>
+								<label>Nombre:</label> <input type="text" th:field="*{nombre}"
+									placeholder="Ej: Patatas fritas" required>
 							</div>
-							<input type="submit" value="Insertar vehiculo">
+							<div>
+								<label>Dificultad:</label> <select th:field="*{dificultad.id}">
+									<option th:each="elem:${listaDificultades}"
+										th:value="${elem.id}" th:text="${elem.dificultad}" required>
+								</select>
+							</div>
 						</div>
-					</form>
-				</div>
-			</section>
-			<section class="section-table">
-				<div class="section-datos">
-					<table>
-						<thead>
-							<tr>
-								<th>ID</th>
-								<th>NOMBRE</th>
-								<th>Dificultad</th>
-								<th th:if="${'ADMIN'.equals(s_usu.role.nombre)}">Gestión</th>
-							</tr>
-						</thead>
-						<tbody>
-							<tr th:each="elem: ${listaRecetas}">
-								<td th:text="${elem.id}"></td>
-								<td th:text="${elem.nombre}"></td>
-								<td th:text="${elem.dificultad.dificultad}"></td>
-								<td th:if="${'ADMIN'.equals(s_usu.role.nombre)}">
-									<div>
-										<a th:href="@{/ModificarReceta(id=${elem.id})}"
-											class="modificar">
-												<svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24">
-													<path fill="#000000" d="M8.707 19.707L18 10.414L13.586 6l-9.293 9.293a1 1 0 0 0-.263.464L3
-													 	21l5.242-1.03c.176-.044.337-.135.465-.263M21 7.414a2 2 0 0 0 0-2.828L19.414 3a2 2 0 0 0-2.828 0L15 4.586L19.414 9z"/>
+						<input type="submit" value="Insertar vehiculo">
+					</div>
+				</form>
+			</div>
+		</section>
+		<section class="section-table">
+			<div class="section-datos">
+				<table>
+					<thead>
+						<tr>
+							<th>ID</th>
+							<th>NOMBRE</th>
+							<th>Dificultad</th>
+							<th th:if="${'ADMIN'.equals(s_usu.role.nombre)}">Gestión</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr th:each="elem: ${listaRecetas}">
+							<td th:text="${elem.id}"></td>
+							<td th:text="${elem.nombre}"></td>
+							<td th:text="${elem.dificultad.dificultad}"></td>
+							<td th:if="${'ADMIN'.equals(s_usu.role.nombre)}">
+								<div>
+									<a th:href="@{/ModificarReceta(id=${elem.id})}"> 
+									<svg xmlns="http://www.w3.org/2000/svg"
+											width="15" height="15" viewBox="0 0 24 24">
+													<path fill="currentColor"
+												d="M8.707 19.707L18 10.414L13.586 6l-9.293 9.293a1 1 0 0 0-.263.464L3
+													 	21l5.242-1.03c.176-.044.337-.135.465-.263M21 7.414a2 2 0 0 0 0-2.828L19.414 3a2 2 0 0 0-2.828 0L15 4.586L19.414 9z" />
 												</svg>
-											</a>
-										<a th:href="@{/BorrarReceta(id=${elem.id})}" class="borrar">
-											<svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24">
-												<path fill="#000000" d="M19 4h-3.5l-1-1h-5l-1 1H5v2h14M6 19a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V7H6z"/>
+									</a> <a th:href="@{/BorrarReceta(id=${elem.id})}" class="borrar">
+										<svg xmlns="http://www.w3.org/2000/svg" width="15" height="15"
+											viewBox="0 0 24 24">
+												<path fill="currentColor"
+												d="M19 4h-3.5l-1-1h-5l-1 1H5v2h14M6 19a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V7H6z" />
 											</svg>
-										</a>									
-									</div>
-								</td>
-							</tr>
-						</tbody>
-					</table>
-				</div>
-			</section>
-		</div>
+									</a>
+								</div>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</section>
 	</main>
 
 	<footer th:include="plantillas/plantillas.html::pie"></footer>
