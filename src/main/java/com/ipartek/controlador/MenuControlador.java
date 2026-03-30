@@ -46,7 +46,9 @@ public class MenuControlador {
 		}
 		if (jwtUtil.isTokenValid(token)) {
 			Claims claims = jwtUtil.extractClaims(token);
-			if (claims.get("rol").equals("ADMIN") || claims.get("rol").equals("USUARIO") || claims.get("rol").equals("BLOQUEADO")) {
+			if (claims.get("rol").equals("ADMIN") 
+					|| claims.get("rol").equals("USUARIO") 
+					|| claims.get("rol").equals("BLOQUEADO")) {
 				model.addAttribute("obj_receta", new Receta());
 				model.addAttribute("listaRecetas", recetaServ.obtenerTodasRecetas(token));
 				model.addAttribute("listaDificultades", dificultadServ.obtenerTodasDificultades(token));
@@ -69,7 +71,9 @@ public class MenuControlador {
 		}
 		if (jwtUtil.isTokenValid(token)) {
 			Claims claims = jwtUtil.extractClaims(token);
-			if (claims.get("rol").equals("ADMIN") || claims.get("rol").equals("USUARIO") || claims.get("rol").equals("BLOQUEADO")) {
+			if (claims.get("rol").equals("ADMIN") 
+					|| claims.get("rol").equals("USUARIO") 
+					|| claims.get("rol").equals("BLOQUEADO")) {
 				model.addAttribute("obj_dificultad", new Dificultad());
 				model.addAttribute("listaDificultades", dificultadServ.obtenerTodasDificultades(token));
 				model.addAttribute("s_usu", (Usuario)session.getAttribute("s_usu"));

@@ -15,37 +15,37 @@
 	<nav th:include="plantillas/plantillas.html::menu"></nav>
 
 	<main id="main-perfil">
-		<div>
-			<section>
-				<div>
-					<form th:action="@{/ModificarUsuario}" method="post"
-						th:object="${obj_usuario}">
-							<div>
-								<h2 class="titulo-form">Modificar datos perfil</h2>
-							</div>
-							<div>
-								<input type="hidden" th:field="*{id}" readonly>
-								<label>User:</label>
-								<input type="text" th:field="*{user}"
-									placeholder="Ej: Patatas fritas" required>
-							</div>
-							<div>
-								<label>Pass:</label>
-								<input type="password" id="pass_sin_hash" oninput="calcularSha256();"></input>
-							</div>
-							<div class="display-row">
-								<div>
-								<a th:href="@{/MenuInicio}" class="a-svg-back">
-									<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 8 8"><path fill="currentColor" d="M4 2h4v6H4l1-2h1V4H4v2L0 3l4-3"/ class="svg-back"></svg>
-								</a>								
-								</div>
-								<input type="hidden" th:field="*{pass}" value="">
-								<input type="submit" value="Modificar usuario">
-							</div>
-					</form>
-				</div>
-			</section>
-		</div>
+		<section class="section-perfil">
+			<div class="contenedor-form-perfil">
+				<form th:action="@{/ModificarUsuario}" method="post"
+					th:object="${obj_usuario}">
+					<div>
+						<h2 class="titulo-form">Modificar datos perfil</h2>
+					</div>
+					<div>
+						<input type="hidden" th:field="*{id}" readonly> <label>User:</label>
+						<input type="text" th:field="*{user}"
+							placeholder="Ej: Patatas fritas" required>
+					</div>
+					<div>
+						<label>Pass:</label> <input type="password" id="pass_sin_hash"
+							oninput="calcularSha256();"></input>
+					</div>
+					<div class="display-row">
+						<div>
+							<a th:href="@{/MenuInicio}" class="a-svg-back"> <svg
+									xmlns="http://www.w3.org/2000/svg" width="20" height="20"
+									viewBox="0 0 8 8">
+									<path fill="currentColor" d="M4 2h4v6H4l1-2h1V4H4v2L0 3l4-3"
+										/ class="svg-back"></svg>
+							</a>
+						</div>
+						<input type="hidden" th:field="*{pass}" value=""> <input
+							type="submit" value="Modificar usuario">
+					</div>
+				</form>
+			</div>
+		</section>
 	</main>
 
 	<footer th:include="plantillas/plantillas.html::pie"></footer>

@@ -30,16 +30,15 @@ public class LoginControlador {
 			//usuario si encontrado en la BD 
 			String passTemp=usu.getPass()+usuTemp.getSalt();
 			String passTempHasheado=Auxiliar.hashear(passTemp);
-			System.out.println("========================");
-			System.out.println("Datos de usuario introducido: " + usu);
-			System.out.println("Datos obtenidos de BBDD por nombre: " + usuTemp);
 			if (passTempHasheado.equalsIgnoreCase(usuTemp.getPass())  
-					&& (usuTemp.getRole().getId()==1 || usuTemp.getRole().getId()==2) || usuTemp.getRole().getId()==3) {
-				String token=jwtUtil.generateToken(usuTemp.getUser(), usuTemp.getRole().getNombre());
+					&& (usuTemp.getRole().getId()==1 
+					|| usuTemp.getRole().getId()==2) 
+					|| usuTemp.getRole().getId()==3) {
+				String token=jwtUtil.generateToken(
+						usuTemp.getUser(), 
+						usuTemp.getRole().getNombre());
 				session.setAttribute("s_token", token);
 				session.setAttribute("s_usu", usuTemp);
-				System.out.println("=======================");
-				System.out.println("USUARIO INICIADO EN LOGIN: " + session.getAttribute("s_usu"));
 				return "redirect:/MenuInicio";
 			}
 			return "redirect:/";

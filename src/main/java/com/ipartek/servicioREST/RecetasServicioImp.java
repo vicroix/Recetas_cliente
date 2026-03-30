@@ -36,13 +36,41 @@ public class RecetasServicioImp implements RecetasServicio{
 	}
 
 	@Override
+	public List<Receta> obtenerRecetaPorNombre(String token, String nombre) {
+		try {
+			HttpHeaders headers = new HttpHeaders();
+			headers.setContentType(MediaType.APPLICATION_JSON);
+			headers.setBearerAuth(token);
+			HttpEntity<String> entity = new HttpEntity<>(headers);
+			ResponseEntity<Receta[]> response = restTemp.exchange(URL  + "buscar-receta-nombre/" + nombre, HttpMethod.GET, entity, Receta[].class);
+			return Arrays.asList(response.getBody());
+		} catch (Exception e) {
+			e.printStackTrace();
+			return new ArrayList<>();
+		}
+	}
+	
+	@Override
+	public List<Receta> obtenerRecetaPorDificultad(String token, String nombre) {
+		try {
+			HttpHeaders headers = new HttpHeaders();
+			headers.setContentType(MediaType.APPLICATION_JSON);
+			headers.setBearerAuth(token);
+			HttpEntity<String> entity = new HttpEntity<>(headers);
+			ResponseEntity<Receta[]> response = restTemp.exchange(URL  + "buscar-receta-dificultad/" + nombre, HttpMethod.GET, entity, Receta[].class);
+			return Arrays.asList(response.getBody());
+		} catch (Exception e) {
+			e.printStackTrace();
+			return new ArrayList<>();
+		}
+	}
+	
+	@Override
 	public Receta insertarReceta(String token, Receta rece) {
 		try {
 			HttpHeaders headers = new HttpHeaders();
 			headers.setContentType(MediaType.APPLICATION_JSON);
 			headers.setBearerAuth(token);
-			System.out.println("================================");
-			System.out.println("Datos receta antes de insertar: " + rece);
 			HttpEntity<Receta> entity = new HttpEntity<>(rece, headers);
 			ResponseEntity<Receta> response = restTemp.exchange(URL, HttpMethod.POST, entity, Receta.class);
 			return response.getBody();

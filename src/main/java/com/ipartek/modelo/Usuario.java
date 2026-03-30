@@ -18,17 +18,17 @@ public class Usuario {
 	@Column(name="id")
 	private int id;
 	
-	@Column(name="user", unique = true, length = 45)
+	@Column(name="user", unique = true, nullable = false, length = 45)
 	private String user;
 	
-	@Column(name="pass", length = 64)
+	@Column(name="pass", nullable = false, length = 64)
 	private String pass;
 	
-	@Column(name="salt", unique = true, length = 32)
+	@Column(name="salt", nullable = false, unique = true, length = 32)
 	private String salt;
 	
 	@ManyToOne
-	@JoinColumn(name="FK_rol")
+	@JoinColumn(name="FK_rol", nullable = false)
 	private Rol role;
 
 	public Usuario(int id, String user, String pass, String salt, Rol role) {

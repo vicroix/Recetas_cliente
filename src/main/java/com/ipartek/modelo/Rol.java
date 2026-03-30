@@ -16,7 +16,7 @@ public class Rol {
 	@Column(name = "id")
 	private int id;
 
-	@Column(name = "nombre")
+	@Column(name = "nombre", nullable = false, unique = true, length = 45)
 	private String nombre;
 
 	public Rol(int id, String nombre) {

@@ -5,10 +5,8 @@
 	flex-direction: column;
 	border-radius: 4px;
 	padding: 14px;
-		background-image: linear-gradient(rgba(255, 255, 255, 0.3),
-		rgba(255, 255, 255, 0.4)), url('/imagenes/fondo-cabecera.jpg');
-	background-size: cover;
-	background-position: center;
+	background: rgba(255, 255, 255, 0.4);
+	backdrop-filter: blur(10px);
 }
 
 #form-login input{
@@ -54,30 +52,6 @@ input[type="password"]:focus {
     outline: none;
     border-color: var(--colorPrincipalClaro);
     box-shadow: 0 0 4px var(--colorPrincipalClaro);
-}
-
-input[type="submit"] {
-    width: 100%;
-    margin-top: 15px;
-    padding: 4px;
-    font-size: 18px;
-    font-weight: 500;
-    color: var(--colorPrincipalOscuro);
-    background-color: var(--fondoClaro);
-    border: none;
-    border-radius: 6px;
-    cursor: pointer;
-    transition: all 0.2s ease-in;
-    text-shadow: 0 0 1px var(--colorPrincipalOscuro);
-}
-
-input[type="submit"]:hover {
-    background-color: var(--colorContraste);
-    color: var(--fondoClaro);
-}
-input[type="submit"]:active {
-    background-color: var(--colorContrasteOscuro);
-    color: var(--fondoClaro);
 }
 
 a {
