@@ -15,6 +15,8 @@
 	<nav th:include="plantillas/plantillas.html::menu"></nav>
 
 	<main id="main-dificultad">
+	<div th:replace="~{plantillas/plantillas :: notificacion}"></div>
+		<div th:include="plantillas/plantillas.html::notificacion"></div>
 		<section
 			th:if="${'ADMIN'.equals(s_usu.role.nombre) || 'USUARIO'.equals(s_usu.role.nombre)}">
 			<div>
@@ -29,7 +31,7 @@
 								th:field="*{dificultad}" placeholder="Ej: Muy facil" required>
 						</div>
 						<div>
-							<input type="submit" value="Insertar dificultad">						
+							<input type="submit" value="Insertar dificultad">
 						</div>
 					</div>
 				</form>
@@ -75,6 +77,7 @@
 	</main>
 
 	<footer th:include="plantillas/plantillas.html::pie"></footer>
+	<script th:src="@{/js/tiempoNotificacion.js?v=1.1}"></script>
 </body>
 
 </html>

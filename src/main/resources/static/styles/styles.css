@@ -184,11 +184,29 @@ main {
 	flex-grow: 1;
 	min-height: 100vh;
 	background-color: var(--fondoClaro);
-	min-height: calc(100vh - var(--alturaCabecera)- var(--altoBotonMenu)- var(--alturaPie)-		
+	min-height: calc(100vh - var(--alturaCabecera)- var(--altoBotonMenu)- var(--alturaPie)-
+		
+				
 		 (4* var(--paddingGeneral)));
 	box-sizing: border-box;
 	margin-left: 1.75rem;
 	margin-right: 1.75rem;
+	position: relative;
+}
+
+#notificacion {
+	position: fixed;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	background-color: var(--fondoCristalOscuroOpaco);
+	height: auto;
+	padding: 16px;
+	z-index: 100;
+	border-radius: 4px;
 }
 
 #main-admin {
@@ -222,10 +240,12 @@ main {
 	background-size: 100% 100%;
 	background-position: center;
 }
-.contenedor-form-perfil{
+
+.contenedor-form-perfil {
 	position: absolute;
 	top: 25%;
 }
+
 #mainSinMenu {
 	display: flex;
 	flex-direction: column;
@@ -272,7 +292,7 @@ section {
 	width: 100%;
 }
 
-.contenedor-tabla{
+.contenedor-tabla {
 	max-height: 344px;
 	display: flex;
 	flex-direction: column;
@@ -287,7 +307,8 @@ section {
 	margin-top: 20px;
 	margin-bottom: 2.75rem;
 }
-.section-datos div:first-child{
+
+.section-datos div:first-child {
 	display: flex;
 	justify-content: center;
 }
@@ -356,17 +377,17 @@ label {
 }
 
 .button-svg {
-	border:rgb(0, 128, 255);
+	border: rgb(0, 128, 255);
 	cursor: pointer;
 }
 
-.display-row-buttons{
+.display-row-buttons {
 	display: flex;
 	flex-direction: row;
 	gap: 24px;
 }
 
-.contenedor-filtro-botones{
+.contenedor-filtro-botones {
 	display: flex;
 	flex-direction: row;
 	justify-content: center;
@@ -374,56 +395,60 @@ label {
 	gap: 2.75rem;
 }
 
-.button-search{
+.button-search {
 	cursor: pointer;
 	border: 0;
 	background: none;
 }
 
-@keyframes rotacionLupa {
-	0% { transform: rotate(0deg); }   
-  15% { transform: rotate(-25deg); } 
-  30% { transform: rotate(0deg); }  
-  45% { transform: translateY(-2px); }  
-  60% { transform: rotate(25deg); }
-  75% { transform: translateY(2px); }
-  100% {transform: rotate(0deg); }
+@keyframes rotacionLupa { 
+0% {transform: rotate(0deg);}
+15%{transform:rotate(-25deg);}
+30%{transform:rotate(0deg);}
+45%{transform:translateY(-2px);}
+60%{transform:rotate(25deg);}
+75%{transform:translateY(2px);}
+100%{transform:rotate(0deg);}
 }
-
-.lupa{
+.lupa {
 	color: rgba(39, 97, 245, 0.95);
 }
-.lupa:hover{
+
+.lupa:hover {
 	animation: rotacionLupa 4s infinite;
 	transform-origin: center;
 	color: rgba(30, 80, 210, 0.95);
 }
-.lupa:active{
+
+.lupa:active {
 	color: rgba(76, 120, 233, 0.95);
 }
 
-@Keyframes rotacionLimpiar {
-	0% { transform: rotate(0deg); }   
-  15% { transform: rotate(25deg); } 
-  30% { transform: rotate(-25deg); }  
-  45% { transform: rotate(0deg); }  
-  60% { transform: rotate(25deg); }
-  75% { transform: rotate(-25deg); }
-  100% {transform: rotate(0deg); }
+@keyframes rotacionLimpiar { 
+0% {transform: rotate(0deg);}
+15%{transform:rotate(-25deg);}
+30%{transform:rotate(0deg);}
+45%{transform:translateY(-2px);}
+60%{transform:rotate(25deg);}
+75%{transform:translateY(2px);}
+100%{transform:rotate(0deg);}
 }
 
-.limpiar{
+.limpiar {
 	color: maroon;
 }
-.limpiar:hover{
+
+.limpiar:hover {
 	animation: rotacionLimpiar 4s infinite;
 	transform-origin: center;
 	color: var(--colorPrincipalOscuro);
 	transform: rotate(25deg);
 }
-.limpiar:active{
+
+.limpiar:active {
 	color: var(--colorPrincipal);
 }
+
 .svg-back {
 	color: var(--colorPrincipalOscuro);
 	transition: all 0.3s ease-in-out;

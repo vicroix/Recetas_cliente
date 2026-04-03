@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.ipartek.componente.JwtUtil;
 import com.ipartek.modelo.Usuario;
@@ -31,19 +32,32 @@ public class RecetaControlador {
 	private JwtUtil jwtUtil;
 
 	@PostMapping("/InsertarReceta")
-	public String insertarReceta(HttpSession session, @ModelAttribute Receta obj_receta) {
-		String token = "";
-		if ((String) session.getAttribute("s_token") != null) {
-			token = (String) session.getAttribute("s_token");
-		}
-		if (jwtUtil.isTokenValid(token)) {
-			Claims claims = jwtUtil.extractClaims(token);
-			if (claims.get("rol").equals("ADMIN")) {
-				recetaServ.insertarReceta(token, obj_receta);
-				return "redirect:/MenuInicio";
+	public String insertarReceta(
+			RedirectAttributes flash,
+			HttpSession session, 
+			@ModelAttribute Receta obj_receta) {
+		try {
+			String token = "";
+			if ((String) session.getAttribute("s_token") != null) {
+				token = (String) session.getAttribute("s_token");
 			}
+			if (jwtUtil.isTokenValid(token)) {
+				Claims claims = jwtUtil.extractClaims(token);
+				if (claims.get("rol").equals("ADMIN")) {
+					Receta recetaTemp = recetaServ.insertarReceta(token, obj_receta);
+					if(recetaTemp!=null) {
+						flash.addFlashAttribute("success", "Receta " + obj_receta.getNombre() + " añadida correctamente");
+					}
+					return "redirect:/MenuInicio";
+				}
+			}
+			return "redirect:/MenuInicio";
+		} catch (Exception e) {
+			e.printStackTrace();
+			flash.addFlashAttribute("MsgError", e.getMessage());
+			return "redirect:/MenuInicio";
 		}
-		return "redirect:/";
+	
 	}
 
 	@GetMapping("/ModificarReceta")
@@ -70,36 +84,64 @@ public class RecetaControlador {
 
 	@PostMapping("/ModificarReceta")
 	public String modificarReceta(
+			RedirectAttributes flash,
+			Model model,
 			HttpSession session, 
 			@ModelAttribute Receta obj_receta) {
-		String token = "";
-		if ((String) session.getAttribute("s_token") != null) {
-			token = (String) session.getAttribute("s_token");
-		}
-		if (jwtUtil.isTokenValid(token)) {
-			Claims claims = jwtUtil.extractClaims(token);
-			if (claims.get("rol").equals("ADMIN")) {
-				recetaServ.modificarReceta(token, obj_receta);
-				return "redirect:/MenuInicio";
+		try {
+			String token = "";
+			if ((String) session.getAttribute("s_token") != null) {
+				token = (String) session.getAttribute("s_token");
 			}
+			if (jwtUtil.isTokenValid(token)) {
+				Claims claims = jwtUtil.extractClaims(token);
+				if (claims.get("rol").equals("ADMIN")) {
+					recetaServ.modificarReceta(token, obj_receta);
+					flash.addFlashAttribute("success", "Receta " + obj_receta.getNombre() + " modificada correctamente");
+				}
+			}
+			return "redirect:/MenuInicio";
+		} catch (Exception e) {
+			e.printStackTrace();
+			String token = (String) session.getAttribute("s_token");
+			Usuario usu = (Usuario) session.getAttribute("s_usu");
+			Receta recetaTemp = recetaServ.obtenerRecetaPorId(token, obj_receta.getId());
+			if(jwtUtil.isTokenValid(token)) {
+				Claims claims = jwtUtil.extractClaims(token);
+				if(claims.get("rol").equals("ADMIN")) {
+					model.addAttribute("obj_receta", recetaTemp);
+					model.addAttribute("MsgError", e.getMessage());
+					model.addAttribute("s_usu", usu);
+				}
+			}
+			return "redirect:/MenuInicio";
 		}
-		return "redirect:/";
 	}
 	
 	
 	@GetMapping("/BorrarReceta")
-	public String borrarReceta(HttpSession session, @RequestParam Integer id) {
-		String token = "";
-		if ((String) session.getAttribute("s_token") != null) {
-			token = (String) session.getAttribute("s_token");
-		}
-		if (jwtUtil.isTokenValid(token)) {
-			Claims claims = jwtUtil.extractClaims(token);
-			if (claims.get("rol").equals("ADMIN")) {
-				recetaServ.borrarReceta(token, id);
-				return "redirect:/MenuInicio";
+	public String borrarReceta(
+			RedirectAttributes flash,
+			HttpSession session, 
+			@RequestParam Integer id) {
+		try {
+			String token = "";
+			if ((String) session.getAttribute("s_token") != null) {
+				token = (String) session.getAttribute("s_token");
 			}
+			if (jwtUtil.isTokenValid(token)) {
+				Claims claims = jwtUtil.extractClaims(token);
+				if (claims.get("rol").equals("ADMIN")) {
+					Receta recetaTemp = recetaServ.obtenerRecetaPorId(token, id);
+					recetaServ.borrarReceta(token, id);
+					flash.addFlashAttribute("success", "Receta " + recetaTemp.getNombre() + " eliminada correctamente");
+				}
+			}
+			return "redirect:/MenuInicio";
+		} catch (Exception e) {
+			e.printStackTrace();
+			flash.addFlashAttribute("MsgError", e.getMessage());
+			return "redirect:/MenuInicio";
 		}
-		return "redirect:/";
 	}
 }

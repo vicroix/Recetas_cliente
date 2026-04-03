@@ -14,6 +14,7 @@
 	<header th:include="plantillas/plantillas.html::cabecera"></header>
 
 	<main id="mainSinMenu">
+	<div th:replace="~{plantillas/plantillas :: notificacion}"></div>
 		<section id="sectionSinMenu">
 			<form th:action="@{/ValidarUsuario}" method="post"
 				th:object="${obj_usuario}" class="login-panel-glass" id="form-login">
@@ -37,6 +38,7 @@
 	</main>
 
 	<footer th:include="plantillas/plantillas.html::pie"></footer>
+	<script th:src="@{/js/tiempoNotificacion.js?v=1.1}"></script>
 </body>
 
 </html>

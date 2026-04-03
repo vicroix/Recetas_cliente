@@ -15,6 +15,7 @@
 	<nav th:include="plantillas/plantillas.html::menu"></nav>
 
 	<main id="main-inicio">
+		<div th:replace="~{plantillas/plantillas :: notificacion}"></div>
 		<section
 			th:if="${'ADMIN'.equals(s_usu.role.nombre) || 'USUARIO'.equals(s_usu.role.nombre)}">
 			<div>
@@ -61,7 +62,8 @@
 							</div>
 							<div class="display-row-buttons">
 								<div>
-									<button type="submit" class="button-search lupa" title="Filtrar">
+									<button type="submit" class="button-search lupa"
+										title="Filtrar">
 										<svg xmlns="http://www.w3.org/2000/svg" width="25" height="25"
 											viewBox="0 0 48 48">
 									<defs>
@@ -135,6 +137,7 @@
 	</main>
 
 	<footer th:include="plantillas/plantillas.html::pie"></footer>
+	<script th:src="@{/js/tiempoNotificacion.js?v=1.1}"></script>
 </body>
 
 </html>

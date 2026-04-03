@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.ipartek.componente.JwtUtil;
 import com.ipartek.modelo.Usuario;
@@ -27,20 +28,27 @@ public class DificultadControlador {
 	
 	@PostMapping("/InsertarDificultad")
 	public String insertarDificultad(
+			RedirectAttributes flash,
 			HttpSession session,
 			@ModelAttribute Dificultad obj_dificultad) {
-		String token = "";
-		if ((String) session.getAttribute("s_token") != null) {
-			token = (String) session.getAttribute("s_token");
-		}
-		if (jwtUtil.isTokenValid(token)) {
-			Claims claims = jwtUtil.extractClaims(token);
-			if (claims.get("rol").equals("ADMIN")) {
-				dificultadServ.insertarDificultad(token, obj_dificultad);
-				return "redirect:/MenuDificultades";
+		try {
+			String token = "";
+			if ((String) session.getAttribute("s_token") != null) {
+				token = (String) session.getAttribute("s_token");
 			}
+			if (jwtUtil.isTokenValid(token)) {
+				Claims claims = jwtUtil.extractClaims(token);
+				if (claims.get("rol").equals("ADMIN")) {
+					Dificultad difiTemp = dificultadServ.insertarDificultad(token, obj_dificultad);
+					flash.addFlashAttribute("success", "Dificultad " + obj_dificultad.getDificultad() + " añadida correctamente");					
+				}
+			}
+			return "redirect:/MenuDificultades";
+		} catch (Exception e) {
+			e.printStackTrace();
+			flash.addFlashAttribute("MsgError", e.getMessage());
+			return "redirect:/MenuDificultades";
 		}
-		return "redirect:/";
 	}
 	
 	@GetMapping("/ModificarDificultad")
@@ -67,39 +75,63 @@ public class DificultadControlador {
 	
 	@PostMapping("/ModificarDificultad")
 	public String modificarDificultad(
+			RedirectAttributes flash,
 			Model model,
 			HttpSession session,
 			@ModelAttribute Dificultad obj_dificultad) {
-		String token = "";
-		Usuario usu = (Usuario) session.getAttribute("s_usu");
-		if ((String) session.getAttribute("s_token") != null) {
-			token = (String) session.getAttribute("s_token");
-		}
-		if (jwtUtil.isTokenValid(token)) {
-			Claims claims = jwtUtil.extractClaims(token);
-			if (claims.get("rol").equals("ADMIN")) {
-				dificultadServ.modificarDificultad(token, obj_dificultad);
-				return "redirect:/MenuDificultades";
+		try {
+			String token = "";
+			Usuario usu = (Usuario) session.getAttribute("s_usu");
+			if ((String) session.getAttribute("s_token") != null) {
+				token = (String) session.getAttribute("s_token");
 			}
+			if (jwtUtil.isTokenValid(token)) {
+				Claims claims = jwtUtil.extractClaims(token);
+				if (claims.get("rol").equals("ADMIN")) {
+					dificultadServ.modificarDificultad(token, obj_dificultad);
+					flash.addFlashAttribute("success", "Dificultad " + obj_dificultad.getDificultad() + " modificada correctamente");
+				}
+			}
+			return "redirect:/MenuDificultades";
+		} catch (Exception e) {
+			e.printStackTrace();
+			String token = (String) session.getAttribute("s_token");
+			Usuario usu = (Usuario) session.getAttribute("s_usu");
+			Dificultad difiTemp = dificultadServ.obtenerDificultadPorId(token, obj_dificultad.getId());
+			if(jwtUtil.isTokenValid(token)) {
+				Claims claims = jwtUtil.extractClaims(token);
+				if(claims.get("rol").equals("ADMIN")) {
+					model.addAttribute("obj_dificultad", difiTemp);
+					model.addAttribute("MsgError", e.getMessage());
+					model.addAttribute("s_usu", usu);
+				}
+			}
+			return "redirect:/MenuDificultades";
 		}
-		return "redirect:/";
 	}
-	
 	@GetMapping("/BorrarDificultad")
 	public String borrarDificultad(
+			RedirectAttributes flash,
 			HttpSession session,
 			@RequestParam Integer id) {
-		String token = "";
-		if ((String) session.getAttribute("s_token") != null) {
-			token = (String) session.getAttribute("s_token");
-		}
-		if (jwtUtil.isTokenValid(token)) {
-			Claims claims = jwtUtil.extractClaims(token);
-			if (claims.get("rol").equals("ADMIN")) {
-				dificultadServ.borrarDificultad(token, id);
-				return "redirect:/MenuDificultades";
+		try {
+			String token = "";
+			if ((String) session.getAttribute("s_token") != null) {
+				token = (String) session.getAttribute("s_token");
 			}
+			if (jwtUtil.isTokenValid(token)) {
+				Claims claims = jwtUtil.extractClaims(token);
+				if (claims.get("rol").equals("ADMIN")) {
+					Dificultad difiTemp = dificultadServ.obtenerDificultadPorId(token, id);
+					dificultadServ.borrarDificultad(token, id);
+					flash.addFlashAttribute("success", "Dificultad " + difiTemp.getDificultad() + " eliminada correctamente");
+				}
+			}
+			return "redirect:/MenuDificultades";
+		} catch (Exception e) {
+			e.printStackTrace();
+			flash.addFlashAttribute("MsgError", e.getMessage());
+			return "redirect:/MenuDificultades";
 		}
-		return "redirect:/";
 	}
 }

@@ -49,11 +49,14 @@ public class MenuControlador {
 			if (claims.get("rol").equals("ADMIN") 
 					|| claims.get("rol").equals("USUARIO") 
 					|| claims.get("rol").equals("BLOQUEADO")) {
+				try {
+					model.addAttribute("listaRecetas", recetaServ.obtenerTodasRecetas(token));
+				} catch (Exception e) {
+					model.addAttribute("MsgError", model.addAttribute("MsgError", e.getMessage()));					
+				}
 				model.addAttribute("obj_receta", new Receta());
-				model.addAttribute("listaRecetas", recetaServ.obtenerTodasRecetas(token));
 				model.addAttribute("listaDificultades", dificultadServ.obtenerTodasDificultades(token));
 				model.addAttribute("s_usu", usu);
-				System.out.println("DATOS USU: " + usu);
 				return "inicio";
 			}
 		}
@@ -74,8 +77,12 @@ public class MenuControlador {
 			if (claims.get("rol").equals("ADMIN") 
 					|| claims.get("rol").equals("USUARIO") 
 					|| claims.get("rol").equals("BLOQUEADO")) {
+				try {
+					model.addAttribute("listaDificultades", dificultadServ.obtenerTodasDificultades(token));
+				} catch (Exception e) {
+					model.addAttribute("MsgError", model.addAttribute("MsgError", e.getMessage()));					
+				}
 				model.addAttribute("obj_dificultad", new Dificultad());
-				model.addAttribute("listaDificultades", dificultadServ.obtenerTodasDificultades(token));
 				model.addAttribute("s_usu", (Usuario)session.getAttribute("s_usu"));
 				return "dificultad";
 			}

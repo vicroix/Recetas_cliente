@@ -3,20 +3,28 @@ package com.ipartek.servicioREST;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Arrays;
+
+import org.springframework.boot.context.properties.PropertyMapper.Source.Always.Mapper;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.http.MediaType;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ipartek.pojo.Dificultad;
+import com.ipartek.pojo.MsgError;
 
 @Service
 public class DificultadServicioImp implements DificultadServicio{
 
 	private RestTemplate restTemp = new RestTemplate();
 	private final String URL = "http://localhost:9090/api/v1/dificultad/";
+	private String mensajeParaLanzar;
+	private ObjectMapper mapper = new ObjectMapper();
 	
 	@Override
 	public List<Dificultad> obtenerTodasDificultades(String token) {
@@ -27,10 +35,17 @@ public class DificultadServicioImp implements DificultadServicio{
 			HttpEntity<String> entity = new HttpEntity<>(headers);
 			ResponseEntity<Dificultad[]> response = restTemp.exchange(URL, HttpMethod.GET, entity, Dificultad[].class);
 			return Arrays.asList(response.getBody());
-		} catch (Exception e) {
-			e.printStackTrace();
-			return new ArrayList<>();
+		} catch (HttpClientErrorException e) {
+			try {
+				MsgError miError = mapper.readValue(e.getResponseBodyAsString(), MsgError.class);
+			} catch (Exception jsonError) {
+				mensajeParaLanzar = "Error de formato";
+			}
 		}
+		if(mensajeParaLanzar != null) {
+			throw new RuntimeException(mensajeParaLanzar);
+		}
+		return new ArrayList<Dificultad>();
 	}
 	
 	@Override
@@ -42,10 +57,18 @@ public class DificultadServicioImp implements DificultadServicio{
 			HttpEntity<Dificultad> entity = new HttpEntity<>(difi, headers);
 			ResponseEntity<Dificultad> response = restTemp.exchange(URL, HttpMethod.POST, entity, Dificultad.class);
 			return response.getBody();
-		} catch (Exception e) {
-			e.printStackTrace();
-			return new Dificultad();
+		} catch (HttpClientErrorException e) {
+			try {
+				MsgError miError = mapper.readValue(e.getResponseBodyAsString(), MsgError.class);
+				mensajeParaLanzar = miError.getMensaje();
+			} catch (Exception jsonError) {
+				mensajeParaLanzar = "Error de formato";
+			}
 		}
+		if (mensajeParaLanzar != null) {
+			throw new RuntimeException(mensajeParaLanzar);
+		}
+		return new Dificultad();
 	}
 	
 	@Override
@@ -63,10 +86,18 @@ public class DificultadServicioImp implements DificultadServicio{
 					);
 			return response.getBody();
 					
-		} catch (Exception e) {
-			e.printStackTrace();
-			return new Dificultad();
+		} catch (HttpClientErrorException e) {
+			try {
+				MsgError miError = mapper.readValue(e.getResponseBodyAsString(), MsgError.class);
+				mensajeParaLanzar = miError.getMensaje();
+			} catch (Exception jsonError) {
+				mensajeParaLanzar = "Error de formato";
+			}
 		}
+		if (mensajeParaLanzar != null) {
+			throw new RuntimeException(mensajeParaLanzar);
+		}
+		return new Dificultad();
 	}
 	
 	@Override
@@ -83,10 +114,18 @@ public class DificultadServicioImp implements DificultadServicio{
 					Dificultad.class
 					);
 			return response.getBody();
-		} catch (Exception e) {
-			e.printStackTrace();
-			return new Dificultad();
+		} catch (HttpClientErrorException e) {
+			try {
+				MsgError miError = mapper.readValue(e.getResponseBodyAsString(), MsgError.class);
+				mensajeParaLanzar = miError.getMensaje();
+			} catch (Exception jsonError) {
+				mensajeParaLanzar = "Error de formato";
+			}
 		}
+		if (mensajeParaLanzar != null) {
+			throw new RuntimeException(mensajeParaLanzar);
+		}
+		return new Dificultad();
 	}
 	
 	@Override
@@ -103,10 +142,18 @@ public class DificultadServicioImp implements DificultadServicio{
 					Boolean.class
 					);
 			return response.getBody();
-		} catch (Exception e) {
-			e.printStackTrace();
-			return false;
+		} catch (HttpClientErrorException e) {
+			try {
+				MsgError miError = mapper.readValue(e.getResponseBodyAsString(), MsgError.class);
+				mensajeParaLanzar = miError.getMensaje();
+			} catch (Exception jsonError) {
+				mensajeParaLanzar = "Error de formato";
+			}
 		}
+		if (mensajeParaLanzar != null) {
+			throw new RuntimeException(mensajeParaLanzar);
+		}
+		return false;
 	}
 	
 

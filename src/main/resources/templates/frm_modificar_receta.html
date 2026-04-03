@@ -15,6 +15,7 @@
 	<nav th:include="plantillas/plantillas.html::menu"></nav>
 
 	<main id="main-inicio">
+		<div th:replace="~{plantillas/plantillas :: notificacion}"></div>
 		<section>
 			<form th:action="@{/ModificarReceta}" method="post"
 				th:object="${obj_receta}">
@@ -48,6 +49,7 @@
 	</main>
 
 	<footer th:include="plantillas/plantillas.html::pie"></footer>
+	<script th:src="@{/js/tiempoNotificacion.js?v=1.1}"></script>
 </body>
 
 </html>

@@ -8,14 +8,11 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-
 import com.ipartek.servicio.RolServicio;
-import com.ipartek.servicio.RolServicioImp;
 import com.ipartek.servicio.UsuarioServicio;
 import com.ipartek.auxiliar.Auxiliar;
 import com.ipartek.componente.JwtUtil;
 import com.ipartek.modelo.Usuario;
-
 import io.jsonwebtoken.Claims;
 import jakarta.servlet.http.HttpSession;
 
@@ -49,14 +46,25 @@ public class UsuarioControlador {
 						obj_usuario.setPass(Auxiliar.hashear(obj_usuario.getPass() + obj_usuario.getSalt()));
 						Usuario usuarioExistente = usuarioServ.obtenerUsuarioPorNombre(obj_usuario.getUser());
 						if(usuarioExistente!=null) {
+							flash.addFlashAttribute("MsgError", "El nombre de usuario " + obj_usuario.getUser() + " ya esta cogido");
 							return "redirect:/MenuAdministracion";
 						}
 						Usuario usuarioTemp = usuarioServ.guardarUsuario(obj_usuario);
+						if (usuarioTemp == null) {
+							flash.addFlashAttribute("MsgError",
+									"Usuario " + obj_usuario.getUser() + " no se pudo guardar");
+						} else if(usuarioTemp.getId()==0) {
+							flash.addFlashAttribute("MsgError", "El usuario " + obj_usuario.getUser() + " no se pudo registrar correctamente");
+						}
+						flash.addFlashAttribute("success", "Usuario " + obj_usuario.getUser() + " registrado correctamente");
+						return "redirect:/MenuAdministracion";
+					} catch (NumberFormatException e) {
+						flash.addFlashAttribute("MsgError", "Error en los parametros introducidos");
 						return "redirect:/MenuAdministracion";
 					} catch (Exception e) {
-						e.printStackTrace();
+						flash.addFlashAttribute("MsgError", "Error del servidor");
 						return "redirect:/MenuAdministracion";
-					} 
+					}
 				}	
 			}
 		}
@@ -107,6 +115,7 @@ public class UsuarioControlador {
 						if(usuarioExistente!=null && usuarioExistente!=usuTemp) {
 							model.addAttribute("obj_usuario", usuTemp);
 							model.addAttribute("listaRoles", rolServ.obtenerTodosLosRoles());
+							model.addAttribute("MsgError", "El nombre de usuario " + obj_usuario.getUser() + " ya esta cogido");
 							model.addAttribute("s_usu", usu);
 							return "frm_modificar_usuario";
 						}
@@ -123,13 +132,23 @@ public class UsuarioControlador {
 						if (obj_usuario.getId() == usuTemp.getId()) {
 							System.out.println("===============================");
 							System.out.println("DATOS ANTES DE GUARDAR: " + usuTemp);
-						usuarioServ.modificarUsuario(usuTemp);
+						Usuario usuarioGuardado = usuarioServ.modificarUsuario(usuTemp);
+							if(usuarioGuardado==null) {
+								flash.addFlashAttribute("MsgError", "No se pudo modificar" + obj_usuario.getUser());
+							}
+							if(usuarioGuardado.getId()==0) {
+								flash.addFlashAttribute("MsgError", "Error, no pudo guardar correctamente al usuario " + obj_usuario.getUser());
+							}
 						}
+						flash.addFlashAttribute("success", "Usuario " + obj_usuario.getUser() + " modificado correctamente");
 						return "redirect:/MenuAdministracion";			
-					} catch (Exception e) {
-						e.printStackTrace();
+					} catch (NumberFormatException e) {
+						flash.addFlashAttribute("MsgError", "Error en los parametros introducidos");
 						return "redirect:/MenuAdministracion";
-					}
+					} catch (Exception e) {
+						flash.addFlashAttribute("MsgError", "Error del servidor");
+						return "redirect:/MenuAdministracion";
+					} 
 			 	}
 		 	}
 		 	return "redirect:/";
@@ -148,10 +167,19 @@ public class UsuarioControlador {
 			Claims claims = jwtUtil.extractClaims(token);
 			if(claims.get("rol").equals("ADMIN")) {
 				try {
+					Usuario usuarioAntesBorrar = usuarioServ.obtenerUsuarioPorId(id);
 					usuarioServ.borrarUsuario(id);
+					Usuario usuTemp = usuarioServ.obtenerUsuarioPorId(id);
+					if(usuTemp==null) {
+						flash.addFlashAttribute("MsgError", "Ha habido un problema, no se pudo borrar a " + usuTemp.getUser() + " con ID " + usuTemp.getId());
+					}
+					flash.addFlashAttribute("success", "Usuario "+ usuarioAntesBorrar.getUser() + " eliminado correctamente");
+					return "redirect:/MenuAdministracion";
+				} catch (NumberFormatException e) {
+					flash.addFlashAttribute("MsgError", "Error en los parametros introducidos");
 					return "redirect:/MenuAdministracion";
 				} catch (Exception e) {
-					e.printStackTrace();
+					flash.addFlashAttribute("MsgError", "Error del servidor");
 					return "redirect:/MenuAdministracion";
 				}
 			}
