@@ -43,7 +43,7 @@ public class RecetaControlador {
 			}
 			if (jwtUtil.isTokenValid(token)) {
 				Claims claims = jwtUtil.extractClaims(token);
-				if (claims.get("rol").equals("ADMIN")) {
+				if (claims.get("rol").equals("ADMIN") || claims.get("rol").equals("USUARIO")) {
 					Receta recetaTemp = recetaServ.insertarReceta(token, obj_receta);
 					if(recetaTemp!=null) {
 						flash.addFlashAttribute("success", "Receta " + obj_receta.getNombre() + " añadida correctamente");

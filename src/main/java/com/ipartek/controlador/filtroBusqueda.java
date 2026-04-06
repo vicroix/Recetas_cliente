@@ -43,25 +43,35 @@ public class filtroBusqueda {
 			@RequestParam String rol_nombre) {
 
 		try {
-			if (usuario != null && !usuario.isEmpty() && !"".equals(usuario)) {
-				List<Usuario> usuarioEncontrado = usuarioServ.obtenerUsuariosPorNombre(usuario);
-				if (usuarioEncontrado != null) {
-					model.addAttribute("listaUsuarios", usuarioEncontrado);
-				} else {
-					model.addAttribute("listaUsuarios", usuarioServ.obtenerTodosUsuarios());
+			String token = "";
+			if(session.getAttribute("s_token")!=null) {
+				token = (String)session.getAttribute("s_token");
+			}
+			if(jwtUtil.isTokenValid(token)) {
+				Claims claims = jwtUtil.extractClaims(token);
+				if(claims.get("rol").equals("ADMIN") || claims.get("rol").equals("USUARIO")) {
+					if (usuario != null && !usuario.isEmpty() && !"".equals(usuario)) {
+						List<Usuario> usuarioEncontrado = usuarioServ.obtenerUsuariosPorNombre(usuario);
+						if (usuarioEncontrado != null) {
+							model.addAttribute("listaUsuarios", usuarioEncontrado);
+						} else {
+							model.addAttribute("listaUsuarios", usuarioServ.obtenerTodosUsuarios());
+						}
+					} else {
+						model.addAttribute("listaUsuarios", usuarioServ.obtenerTodosUsuarios());
+					}
+					
+					if (rol_nombre != null && !rol_nombre.isEmpty() && !"".equals(rol_nombre)) {
+						model.addAttribute("listaUsuarios", usuarioServ.obtenerUsuariosRolNombre(rol_nombre));
+					}
+					
+					model.addAttribute("obj_usuario", new Usuario());
+					model.addAttribute("listaRoles", rolServ.obtenerTodosLosRoles());
+					model.addAttribute("s_usu", (Usuario) session.getAttribute("s_usu"));
+					return "administracion";
 				}
-			} else {
-				model.addAttribute("listaUsuarios", usuarioServ.obtenerTodosUsuarios());
 			}
-
-			if (rol_nombre != null && !rol_nombre.isEmpty() && !"".equals(rol_nombre)) {
-				model.addAttribute("listaUsuarios", usuarioServ.obtenerUsuariosRolNombre(rol_nombre));
-			}
-
-			model.addAttribute("obj_usuario", new Usuario());
-			model.addAttribute("listaRoles", rolServ.obtenerTodosLosRoles());
-			model.addAttribute("s_usu", (Usuario) session.getAttribute("s_usu"));
-			return "administracion";
+			return "redirect:/";
 		} catch (Exception e) {
 			e.printStackTrace();
 			return "redirect:/MenuAdministracion";
@@ -98,9 +108,11 @@ public class filtroBusqueda {
 					model.addAttribute("listaDificultades", dificultadServ.obtenerTodasDificultades(token));
 					model.addAttribute("s_usu", (Usuario) session.getAttribute("s_usu"));
 					return "inicio";
+				} else {
+					return "redirect:/MenuInicio";					
 				}
 			}
-			return "redirect:/MenuInicio";
+			return "redirect:/";
 		} catch (Exception e) {
 			e.printStackTrace();
 			return "redirect:/MenuAdministracion";

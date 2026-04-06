@@ -26,24 +26,24 @@ public class LoginControlador {
 	@PostMapping("/ValidarUsuario")
 	public String inicio(Model model, @ModelAttribute Usuario usu, HttpSession session) {
 		Usuario usuTemp= usuarioServ.obtenerUsuarioPorNombre(usu.getUser().trim());
-		if (usuTemp!=null ) {
-			//usuario si encontrado en la BD 
+		if (usuTemp!=null ) { 
 			String passTemp=usu.getPass()+usuTemp.getSalt();
 			String passTempHasheado=Auxiliar.hashear(passTemp);
 			if (passTempHasheado.equalsIgnoreCase(usuTemp.getPass())  
 					&& (usuTemp.getRole().getId()==1 
-					|| usuTemp.getRole().getId()==2) 
-					|| usuTemp.getRole().getId()==3) {
+					|| usuTemp.getRole().getId()==2 
+					|| usuTemp.getRole().getId()==3)) {
 				String token=jwtUtil.generateToken(
 						usuTemp.getUser(), 
 						usuTemp.getRole().getNombre());
-				session.setAttribute("s_token", token);
-				session.setAttribute("s_usu", usuTemp);
-				return "redirect:/MenuInicio";
+				if(jwtUtil.isTokenValid(token)) {
+					session.setAttribute("s_token", token);
+					session.setAttribute("s_usu", usuTemp);
+					return "redirect:/MenuInicio";
+				}
 			}
 			return "redirect:/";
 		}else {
-			//usuario no encontrado en la BD, vamos a login de inicio
 			return "redirect:/";
 		}
 	}

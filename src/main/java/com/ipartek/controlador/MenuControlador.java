@@ -46,9 +46,7 @@ public class MenuControlador {
 		}
 		if (jwtUtil.isTokenValid(token)) {
 			Claims claims = jwtUtil.extractClaims(token);
-			if (claims.get("rol").equals("ADMIN") 
-					|| claims.get("rol").equals("USUARIO") 
-					|| claims.get("rol").equals("BLOQUEADO")) {
+			if (claims.get("rol").equals("ADMIN") || claims.get("rol").equals("USUARIO") || claims.get("rol").equals("BLOQUEADO")) {
 				try {
 					model.addAttribute("listaRecetas", recetaServ.obtenerTodasRecetas(token));
 				} catch (Exception e) {
@@ -74,9 +72,7 @@ public class MenuControlador {
 		}
 		if (jwtUtil.isTokenValid(token)) {
 			Claims claims = jwtUtil.extractClaims(token);
-			if (claims.get("rol").equals("ADMIN") 
-					|| claims.get("rol").equals("USUARIO") 
-					|| claims.get("rol").equals("BLOQUEADO")) {
+			if (claims.get("rol").equals("ADMIN") || claims.get("rol").equals("USUARIO") || claims.get("rol").equals("BLOQUEADO")) {
 				try {
 					model.addAttribute("listaDificultades", dificultadServ.obtenerTodasDificultades(token));
 				} catch (Exception e) {
@@ -122,7 +118,7 @@ public class MenuControlador {
 		}
 		if(jwtUtil.isTokenValid(token)) {
 			Claims claims = jwtUtil.extractClaims(token);
-			if(claims.get("rol").equals("ADMIN") || claims.get("rol").equals("USUARIO")) {
+			if(claims.get("rol").equals("ADMIN") || claims.get("rol").equals("USUARIO") || claims.get("rol").equals("BLOQUEADO")) {
 				Usuario usu = (Usuario) session.getAttribute("s_usu");
 				Usuario obj_usuario = (Usuario)session.getAttribute("s_usu");
 				model.addAttribute("obj_usuario", obj_usuario);
