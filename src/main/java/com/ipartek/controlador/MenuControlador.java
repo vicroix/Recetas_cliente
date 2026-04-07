@@ -79,7 +79,7 @@ public class MenuControlador {
 					model.addAttribute("MsgError", model.addAttribute("MsgError", e.getMessage()));					
 				}
 				model.addAttribute("obj_dificultad", new Dificultad());
-				model.addAttribute("s_usu", (Usuario)session.getAttribute("s_usu"));
+				model.addAttribute("s_usu", usu);
 				return "dificultad";
 			}
 		}
@@ -101,7 +101,7 @@ public class MenuControlador {
 				model.addAttribute("obj_usuario", new Usuario());
 				model.addAttribute("listaUsuarios", usuarioServ.obtenerTodosUsuarios());
 				model.addAttribute("listaRoles", rolServ.obtenerTodosLosRoles());
-				model.addAttribute("s_usu", (Usuario)session.getAttribute("s_usu"));
+				model.addAttribute("s_usu", usu);
 				return "administracion";				
 			}
 		}
@@ -122,7 +122,7 @@ public class MenuControlador {
 				Usuario usu = (Usuario) session.getAttribute("s_usu");
 				Usuario obj_usuario = (Usuario)session.getAttribute("s_usu");
 				model.addAttribute("obj_usuario", obj_usuario);
-				model.addAttribute("s_usu", (Usuario)session.getAttribute("s_usu"));
+				model.addAttribute("s_usu", usu);
 				return "perfil";				
 			}
 		}

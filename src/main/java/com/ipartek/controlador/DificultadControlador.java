@@ -39,7 +39,7 @@ public class DificultadControlador {
 			if (jwtUtil.isTokenValid(token)) {
 				Claims claims = jwtUtil.extractClaims(token);
 				if (claims.get("rol").equals("ADMIN") || claims.get("rol").equals("USUARIO")) {
-					Dificultad difiTemp = dificultadServ.insertarDificultad(token, obj_dificultad);
+					dificultadServ.insertarDificultad(token, obj_dificultad);
 					flash.addFlashAttribute("success", "Dificultad " + obj_dificultad.getDificultad() + " añadida correctamente");					
 				}
 			}
@@ -81,7 +81,6 @@ public class DificultadControlador {
 			@ModelAttribute Dificultad obj_dificultad) {
 		try {
 			String token = "";
-			Usuario usu = (Usuario) session.getAttribute("s_usu");
 			if ((String) session.getAttribute("s_token") != null) {
 				token = (String) session.getAttribute("s_token");
 			}

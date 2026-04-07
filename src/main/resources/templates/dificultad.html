@@ -16,7 +16,6 @@
 
 	<main id="main-dificultad">
 	<div th:replace="~{plantillas/plantillas :: notificacion}"></div>
-		<div th:include="plantillas/plantillas.html::notificacion"></div>
 		<section
 			th:if="${'ADMIN'.equals(s_usu.role.nombre) || 'USUARIO'.equals(s_usu.role.nombre)}">
 			<div>
